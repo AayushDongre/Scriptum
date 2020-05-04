@@ -1,7 +1,7 @@
 part of 'auth_bloc.dart';
 
-abstract class AuthEvent {
-  const AuthEvent([List props = const []]);
+abstract class AuthEvent extends Equatable{
+  AuthEvent([List props = const []]);
 }
 
 
