@@ -43,4 +43,9 @@ class _ScriptumState extends State<Scriptum> {
       ),
     );
   }
+  @override
+  void dispose() { 
+    _authBloc.dispose();
+    super.dispose();
+  }
 }
