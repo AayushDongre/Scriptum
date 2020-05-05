@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
+import 'package:scriptum/screens/authentication/login_screen.dart';
 import 'package:scriptum/screens/splash_screen.dart';
 void main() => runApp(Scriptum());
 
@@ -34,7 +35,7 @@ class _ScriptumState extends State<Scriptum> {
           bloc: _authBloc,
           builder: (BuildContext context, AuthState state) {
             if ( state is AuthInitial ){
-              return SplashScreen();
+              return LoginScreen();
             } else {
               return Container();
             }
