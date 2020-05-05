@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:scriptum/authentication/authRepository.dart';
+import 'package:scriptum/models/user.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -35,7 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> appStartedToState() async* {
     final bool isSignedIn = await _authRepository.isSignIn();
     if (isSignedIn) {
-      final FirebaseUser user = await _authRepository.getCurrentUser();
+      final User user = await _authRepository.getCurrentUser();
       yield Authenticated(user);
     } else {
       yield UnAuthenticated();
@@ -43,7 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Stream<AuthState> loggedInToState() async* {
-    final FirebaseUser user = await _authRepository.getCurrentUser();
+    final User user = await _authRepository.getCurrentUser();
     yield Authenticated(user);
   }
 

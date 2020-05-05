@@ -15,7 +15,7 @@ class AuthInitial extends AuthState {
 
 
 class Authenticated extends AuthState{
-  FirebaseUser user;
+  User user;
 
   Authenticated(this.user) : super([user]);
 
