@@ -8,12 +8,14 @@ class LoginState extends Equatable {
   final bool isSuccesful;
   final bool isFailure;
 
+  bool get isFormValid => isEmailValid && isPasswordValid;
+
   LoginState._({
-    this.isEmailValid,
-    this.isPasswordValid,
-    this.isSubmitting,
-    this.isSuccesful,
-    this.isFailure,
+    @required this.isEmailValid,
+    @required this.isPasswordValid,
+    @required this.isSubmitting,
+    @required this.isSuccesful,
+    @required this.isFailure,
   });
 
   factory LoginState.initial() {
@@ -46,13 +48,51 @@ class LoginState extends Equatable {
     );
   }
 
-  factory LoginState.failure(){
+  factory LoginState.failure() {
     return LoginState._(
-      isEmailValid: true,
-      isPasswordValid: true,
+        isEmailValid: true,
+        isPasswordValid: true,
+        isSubmitting: false,
+        isSuccesful: false,
+        isFailure: true);
+  }
+
+  LoginState copyWith({
+    bool isEmailValid,
+    bool isPasswordValid,
+    bool isSubmitting,
+    bool isSuccesful,
+    bool isFailure,
+  }) {
+    return LoginState._(
+      isEmailValid: isEmailValid ?? this.isEmailValid,
+      isPasswordValid: isPasswordValid ?? this.isPasswordValid,
+      isSubmitting: isSubmitting ?? this.isSubmitting,
+      isSuccesful: isSuccesful ?? this.isSuccesful,
+      isFailure: isFailure ?? this.isFailure,
+    );
+  }
+
+  LoginState update({
+    bool isEmailValid,
+    bool isPasswordvalid,
+  }) {
+    return copyWith(
+      isEmailValid: isEmailValid,
+      isPasswordValid: isPasswordvalid,
       isSubmitting: false,
       isSuccesful: false,
-      isFailure: true
+      isFailure: false,
     );
+  }
+
+  @override
+  String toString() {
+    return '''LoginState(
+      isEmailValid: $isEmailValid, 
+      isPasswordValid: $isPasswordValid, 
+      isSubmitting: $isSubmitting, 
+      isSuccesful: $isSuccesful, 
+      isFailure: $isFailure)''';
   }
 }

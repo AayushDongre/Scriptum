@@ -9,7 +9,7 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
-  LoginState get initialState => LoginInitial();
+  LoginState get initialState => LoginState.initial();
 
   @override
   Stream<LoginState> mapEventToState(

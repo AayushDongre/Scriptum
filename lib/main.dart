@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/screens/authentication/login_screen.dart';
-import 'package:scriptum/screens/splash_screen.dart';
 void main() => runApp(Scriptum());
 
 class Scriptum extends StatefulWidget {

@@ -16,7 +16,7 @@ class AuthInitial extends AuthState {
 
 
 class Authenticated extends AuthState{
-  User user;
+  final User user;
 
   Authenticated(this.user) : super([user]);
 
