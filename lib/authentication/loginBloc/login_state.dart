@@ -7,6 +7,8 @@ class LoginState extends Equatable {
   final bool isSubmitting;
   final bool isSuccesful;
   final bool isFailure;
+  final bool emailIsCorrect;
+  final bool passwordIsCorrect;
 
   bool get isFormValid => isEmailValid && isPasswordValid;
 
@@ -16,6 +18,8 @@ class LoginState extends Equatable {
     @required this.isSubmitting,
     @required this.isSuccesful,
     @required this.isFailure,
+    @required this.emailIsCorrect,
+    @required this.passwordIsCorrect,
   });
 
   factory LoginState.initial() {
@@ -25,6 +29,8 @@ class LoginState extends Equatable {
       isSubmitting: false,
       isSuccesful: false,
       isFailure: false,
+      emailIsCorrect: true,
+      passwordIsCorrect: true,
     );
   }
 
@@ -35,6 +41,8 @@ class LoginState extends Equatable {
       isSubmitting: true,
       isSuccesful: false,
       isFailure: false,
+      emailIsCorrect: true,
+      passwordIsCorrect: true,
     );
   }
 
@@ -45,16 +53,45 @@ class LoginState extends Equatable {
       isSubmitting: false,
       isSuccesful: true,
       isFailure: false,
+      emailIsCorrect: true,
+      passwordIsCorrect: true,
     );
   }
 
   factory LoginState.failure() {
     return LoginState._(
-        isEmailValid: true,
-        isPasswordValid: true,
-        isSubmitting: false,
-        isSuccesful: false,
-        isFailure: true);
+      isEmailValid: true,
+      isPasswordValid: true,
+      isSubmitting: false,
+      isSuccesful: false,
+      isFailure: true,
+      emailIsCorrect: true,
+      passwordIsCorrect: true,
+    );
+  }
+
+  factory LoginState.incorrectEmail() {
+    return LoginState._(
+      isEmailValid: true,
+      isPasswordValid: true,
+      isSubmitting: false,
+      isSuccesful: false,
+      isFailure: true,
+      emailIsCorrect: false,
+      passwordIsCorrect: true,
+    );
+  }
+
+  factory LoginState.incorrectPassword() {
+    return LoginState._(
+      isEmailValid: true,
+      isPasswordValid: true,
+      isSubmitting: false,
+      isSuccesful: false,
+      isFailure: true,
+      emailIsCorrect: true,
+      passwordIsCorrect: false,
+    );
   }
 
   LoginState copyWith({
@@ -63,6 +100,8 @@ class LoginState extends Equatable {
     bool isSubmitting,
     bool isSuccesful,
     bool isFailure,
+    bool emailIsCorrect,
+    bool passwordIsCorrect,
   }) {
     return LoginState._(
       isEmailValid: isEmailValid ?? this.isEmailValid,
@@ -70,6 +109,8 @@ class LoginState extends Equatable {
       isSubmitting: isSubmitting ?? this.isSubmitting,
       isSuccesful: isSuccesful ?? this.isSuccesful,
       isFailure: isFailure ?? this.isFailure,
+      emailIsCorrect: emailIsCorrect ?? this.emailIsCorrect,
+      passwordIsCorrect: passwordIsCorrect ?? passwordIsCorrect,
     );
   }
 
@@ -83,6 +124,8 @@ class LoginState extends Equatable {
       isSubmitting: false,
       isSuccesful: false,
       isFailure: false,
+      emailIsCorrect: true,
+      passwordIsCorrect: true,
     );
   }
 
