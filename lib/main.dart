@@ -1,63 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
+import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/screens/splash_screen.dart';
-void main() => runApp(MyApp());
+void main() => runApp(Scriptum());
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: SplashScreen(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+class Scriptum extends StatefulWidget {
+  Scriptum({Key key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _ScriptumState createState() => _ScriptumState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+class _ScriptumState extends State<Scriptum> {
+  
+  final AuthRepository _authRepository = AuthRepository();
+  AuthBloc _authBloc;
+  
+  @override
+  void initState() {
+    super.initState();
+    _authBloc = AuthBloc(authRepository: _authRepository);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    return  BlocProvider(
+      bloc: _authBloc,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark(),
+        home: BlocBuilder(
+          bloc: _authBloc,
+          builder: (BuildContext context, AuthState state) {
+            if ( state is AuthInitial ){
+              return SplashScreen();
+            } else {
+              return Container();
+            }
+          },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
