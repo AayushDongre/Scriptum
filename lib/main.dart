@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
+import 'package:scriptum/constants/typography.dart';
 import 'package:scriptum/screens/authentication/login_screen.dart';
 void main() => runApp(Scriptum());
 
@@ -35,7 +36,10 @@ class _ScriptumState extends State<Scriptum> {
           builder: (BuildContext context, AuthState state) {
             if ( state is AuthInitial ){
               return LoginScreen();
-            } else {
+            } else if ( state is Authenticated ) {
+              return Container(child: h1('HOME PAGE'));
+            }
+            else {
               return Container();
             }
           },
