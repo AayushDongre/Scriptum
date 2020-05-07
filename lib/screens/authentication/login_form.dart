@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/loginBloc/login_bloc.dart';
+import 'package:scriptum/constants/colors.dart';
+import 'package:scriptum/constants/widgets.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm({Key key}) : super(key: key);
@@ -24,7 +27,88 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return BlocListener(
+        bloc: _loginBloc,
+        listener: blocListener,
+        child: BlocBuilder(
+          bloc: _loginBloc,
+          builder: (BuildContext context, LoginState state) {
+            return Container(
+              padding: EdgeInsets.all(16),
+              child: Form(
+                autovalidate: true,
+                child: Column(
+                  children: <Widget>[
+                    standardTextInput(
+                      hintText: 'Email Address',
+                      controller: _emailController,
+                      validator: (value) =>
+                          !state.isEmailValid ? 'Invalid Email' : null,
+                    ),
+                    standardTextInput(
+                        hintText: 'Password',
+                        controller: _passwordController,
+                        validator: (value) =>
+                            !state.isPasswordValid ? 'Invalid Password' : null,
+                        obscureText: true,
+                        margin: 16),
+                    RaisedButton(
+                      color: Colors.white,
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(color: purple),
+                      ),
+                      onPressed: () => _loginBloc.dispatch(
+                        CredentialSignIn(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        ),
+                      ),
+                    ),
+                    RaisedButton(
+                      color: Colors.white,
+                      child: Text(
+                        'Contiue with GOOGLE',
+                        style: TextStyle(color: purple),
+                      ),
+                      onPressed: () => _loginBloc.dispatch(
+                        GoogleSignIn()
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ));
+  }
+
+  void blocListener(BuildContext context, LoginState state) {
+    if (!state.emailIsCorrect) {
+      Scaffold.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+            snackbar('Account for this email does not exit', Icons.error));
+    }
+    if (!state.passwordIsCorrect) {
+      Scaffold.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(snackbar('Wrong Password', Icons.error));
+    }
+    if (state.isFailure) {
+      Scaffold.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(snackbar('Something went wrong!', Icons.error));
+    }
+    if (state.isSubmitting) {
+      Scaffold.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(snackbar('Logging In', Icons.timer));
+    }
+    if (state.isSuccesful) {
+      BlocProvider.of<AuthBloc>(context).dispatch(LoggedIn());
+    }
+    print(state);
   }
 
   void emailListener() {
@@ -42,6 +126,8 @@ class _LoginFormState extends State<LoginForm> {
   @override
   void dispose() {
     _loginBloc.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 }

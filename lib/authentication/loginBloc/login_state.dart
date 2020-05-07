@@ -20,7 +20,17 @@ class LoginState extends Equatable {
     @required this.isFailure,
     @required this.emailIsCorrect,
     @required this.passwordIsCorrect,
-  });
+  }) : super([
+          [
+            isEmailValid,
+            isPasswordValid,
+            isSubmitting,
+            isSuccesful,
+            isFailure,
+            emailIsCorrect,
+            passwordIsCorrect,
+          ]
+        ]);
 
   factory LoginState.initial() {
     return LoginState._(
@@ -76,7 +86,7 @@ class LoginState extends Equatable {
       isPasswordValid: true,
       isSubmitting: false,
       isSuccesful: false,
-      isFailure: true,
+      isFailure: false,
       emailIsCorrect: false,
       passwordIsCorrect: true,
     );
@@ -88,7 +98,7 @@ class LoginState extends Equatable {
       isPasswordValid: true,
       isSubmitting: false,
       isSuccesful: false,
-      isFailure: true,
+      isFailure: false,
       emailIsCorrect: true,
       passwordIsCorrect: false,
     );
@@ -136,6 +146,8 @@ class LoginState extends Equatable {
       isPasswordValid: $isPasswordValid, 
       isSubmitting: $isSubmitting, 
       isSuccesful: $isSuccesful, 
-      isFailure: $isFailure)''';
+      isFailure: $isFailure,
+      emailIsCorrect: $emailIsCorrect,
+      passwordIscCorrect: $passwordIsCorrect)''';
   }
 }

@@ -2,7 +2,7 @@ part of 'auth_bloc.dart';
 
 @immutable
 abstract class AuthState extends Equatable {
-  AuthState([List props = const []]);
+  AuthState([List props = const []]) : super([props]);
 }
 
 
