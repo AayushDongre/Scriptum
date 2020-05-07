@@ -21,15 +21,13 @@ class LoginState extends Equatable {
     @required this.emailIsCorrect,
     @required this.passwordIsCorrect,
   }) : super([
-          [
-            isEmailValid,
-            isPasswordValid,
-            isSubmitting,
-            isSuccesful,
-            isFailure,
-            emailIsCorrect,
-            passwordIsCorrect,
-          ]
+          isEmailValid,
+          isPasswordValid,
+          isSubmitting,
+          isSuccesful,
+          isFailure,
+          emailIsCorrect,
+          passwordIsCorrect,
         ]);
 
   factory LoginState.initial() {

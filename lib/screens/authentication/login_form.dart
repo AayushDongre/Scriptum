@@ -58,22 +58,13 @@ class _LoginFormState extends State<LoginForm> {
                         'Submit',
                         style: TextStyle(color: purple),
                       ),
-                      onPressed: () => _loginBloc.dispatch(
-                        CredentialSignIn(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        ),
-                      ),
-                    ),
-                    RaisedButton(
-                      color: Colors.white,
-                      child: Text(
-                        'Contiue with GOOGLE',
-                        style: TextStyle(color: purple),
-                      ),
-                      onPressed: () => _loginBloc.dispatch(
-                        GoogleSignIn()
-                      ),
+                      onPressed: () {
+                        if (state.isFormValid)
+                          _loginBloc.dispatch(CredentialSignIn(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          ));
+                      },
                     ),
                   ],
                 ),
