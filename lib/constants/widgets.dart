@@ -7,9 +7,12 @@ Widget snackbar(String text, IconData icon) {
   return SnackBar(
     content: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [Text(text), Icon(icon)],
+      children: [
+        h2(text, fontSize: 14),
+        Icon(icon, color: Colors.white54,),
+      ],
     ),
-    backgroundColor: Colors.white,
+    backgroundColor: Color(0XFF111111),
   );
 }
 
@@ -48,9 +51,8 @@ Container standardTextInput({
 }
 
 Widget button(
-  BuildContext context, 
-  String text,
-  {
+  BuildContext context,
+  String text, {
   @required void Function() onTap,
   double width = 0.8,
   double height = 48,
@@ -59,7 +61,7 @@ Widget button(
   return GestureDetector(
     onTap: onTap,
     child: Container(
-      margin: EdgeInsets.symmetric(vertical:16),
+      margin: EdgeInsets.symmetric(vertical: 16),
       width: MediaQuery.of(context).size.width * width,
       height: height,
       child: Center(child: h2(text, fontSize: 20)),

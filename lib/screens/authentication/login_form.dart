@@ -58,13 +58,17 @@ class _LoginFormState extends State<LoginForm> {
                       onTap: () {
                         if (state.isFormValid &&
                             _emailController.text.isNotEmpty &&
-                            _passwordController.text.isNotEmpty)
-                          _loginBloc.dispatch(
-                            CredentialSignIn(
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            ),
-                          );
+                            _passwordController.text.isNotEmpty) {
+                          _loginBloc.dispatch(CredentialSignIn(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          ));
+                        } else {
+                          Scaffold.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(
+                                snackbar('Please Enter Valid Details', Icons.error));
+                        }
                       },
                     ),
                     Text('OR'),
