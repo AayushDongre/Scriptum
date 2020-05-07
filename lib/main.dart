@@ -4,6 +4,7 @@ import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/typography.dart';
 import 'package:scriptum/screens/authentication/login_screen.dart';
+import 'package:scriptum/screens/authentication/signup_screen.dart';
 void main() => runApp(Scriptum());
 
 class Scriptum extends StatefulWidget {
@@ -30,6 +31,10 @@ class _ScriptumState extends State<Scriptum> {
       bloc: _authBloc,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        routes: {
+          '/signup' : (BuildContext context) => SignUpScreen(),
+          '/login' : (BuildContext  context) => LoginScreen(),
+        },
         theme: ThemeData.dark(),
         home: BlocBuilder(
           bloc: _authBloc,

@@ -11,6 +11,6 @@ class Validators {
   }
 
   static isValidPassword(String password) {
-    return password.length > 5;
+    return password.length > 5 || password.isEmpty;
   }
 }

@@ -4,6 +4,7 @@ import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/authentication/signupBloc/signup_bloc.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
+import 'package:scriptum/screens/authentication/signup_form.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key key}) : super(key: key);
@@ -35,6 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               children: <Widget>[
                 h1('Sign Up'),
+                SignUpForm(),
               ],
             ),
           ),

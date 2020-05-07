@@ -35,6 +35,11 @@ class _LoginScreenState extends State<LoginScreen> {
               children: <Widget>[
                 h1('Sign In', fontSize: 48),
                 LoginForm(),
+                Text('OR'),
+                RaisedButton(
+                  child: Text('Sign up'),
+                  onPressed: () => Navigator.pushNamed(context, '/signup'),
+                )
               ],
             ),
           ),
@@ -44,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  void dispose() { 
+  void dispose() {
     _loginBloc.dispose();
     super.dispose();
   }

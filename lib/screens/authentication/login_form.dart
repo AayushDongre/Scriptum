@@ -59,7 +59,7 @@ class _LoginFormState extends State<LoginForm> {
                         style: TextStyle(color: purple),
                       ),
                       onPressed: () {
-                        if (state.isFormValid)
+                        if (state.isFormValid && _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty)
                           _loginBloc.dispatch(CredentialSignIn(
                             email: _emailController.text,
                             password: _passwordController.text,
