@@ -12,3 +12,16 @@ Text h1(String text, {double fontSize}) {
     ),
   );
 }
+
+Text h2(String text, {double fontSize}) {
+  return Text(
+    text,
+    style: TextStyle(
+      color: Color(0XFFFDFDFD),
+      letterSpacing: 0.4,
+      fontSize: fontSize ?? 28,
+      fontWeight: FontWeight.w600,
+      fontFamily: 'Lato',
+    ),
+  );
+}

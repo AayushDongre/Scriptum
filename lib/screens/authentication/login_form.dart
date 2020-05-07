@@ -52,20 +52,27 @@ class _LoginFormState extends State<LoginForm> {
                             !state.isPasswordValid ? 'Invalid Password' : null,
                         obscureText: true,
                         margin: 16),
-                    RaisedButton(
-                      color: Colors.white,
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(color: purple),
-                      ),
-                      onPressed: () {
-                        if (state.isFormValid && _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty)
-                          _loginBloc.dispatch(CredentialSignIn(
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                          ));
+                    button(
+                      context,
+                      'Log In',
+                      onTap: () {
+                        if (state.isFormValid &&
+                            _emailController.text.isNotEmpty &&
+                            _passwordController.text.isNotEmpty)
+                          _loginBloc.dispatch(
+                            CredentialSignIn(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            ),
+                          );
                       },
                     ),
+                    Text('OR'),
+                    button(
+                      context,
+                      'Sign Up',
+                      onTap: () => Navigator.pushNamed(context, '/signup'),
+                    )
                   ],
                 ),
               ),

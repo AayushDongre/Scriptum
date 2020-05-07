@@ -42,6 +42,7 @@ class _ScriptumState extends State<Scriptum> {
             if ( state is AuthInitial ){
               return LoginScreen();
             } else if ( state is Authenticated ) {
+              // _authBloc.dispatch(LoggedOut());
               return Container(child: h1(state.user.name));
             }
             else {

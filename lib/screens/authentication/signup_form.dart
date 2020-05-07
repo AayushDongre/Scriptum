@@ -63,13 +63,10 @@ class _SignUpFormState extends State<SignUpForm> {
                             !state.isPasswordValid ? 'Invalid Password' : null,
                         obscureText: true,
                         margin: 16),
-                    RaisedButton(
-                      color: Colors.white,
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(color: purple),
-                      ),
-                      onPressed: () {
+                    button(
+                      context,
+                      'Sign Up',
+                      onTap: () {
                         if (state.isFormValid &&
                             _emailController.text.isNotEmpty &&
                             _passwordController.text.isNotEmpty &&
@@ -93,25 +90,22 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   void blocListener(BuildContext context, SignupState state) {
-    if(state.isSubmitting){
-       Scaffold.of(context)
+    if (state.isSubmitting) {
+      Scaffold.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(
-            snackbar('Submitting', Icons.timer));
+        ..showSnackBar(snackbar('Submitting', Icons.timer));
     }
-    if(state.emailInUse){
-       Scaffold.of(context)
+    if (state.emailInUse) {
+      Scaffold.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(
-            snackbar('This email is already in use!', Icons.error));
+        ..showSnackBar(snackbar('This email is already in use!', Icons.error));
     }
-    if(state.isFailure){
-       Scaffold.of(context)
+    if (state.isFailure) {
+      Scaffold.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(
-            snackbar('Something went wrong!', Icons.error));
+        ..showSnackBar(snackbar('Something went wrong!', Icons.error));
     }
-    if(state.isSuccess){
+    if (state.isSuccess) {
       BlocProvider.of<AuthBloc>(context).dispatch(LoggedIn());
       Navigator.pop(context);
     }
