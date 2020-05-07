@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/authentication/signupBloc/signup_bloc.dart';
-import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/widgets.dart';
 
 class SignUpForm extends StatefulWidget {

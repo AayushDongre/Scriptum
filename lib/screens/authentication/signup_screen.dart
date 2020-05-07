@@ -33,9 +33,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Container(
             alignment: Alignment.center,
             padding: EdgeInsets.only(top: 24, left: 16),
-            child: Column(
+            child: ListView(
               children: <Widget>[
-                h1('Sign Up'),
+                Padding(
+                  padding: EdgeInsets.only(left: 40),
+                  child: h1('Sign Up', fontSize: 48),
+                ),
                 SignUpForm(),
               ],
             ),

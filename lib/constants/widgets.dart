@@ -18,7 +18,7 @@ final InputDecoration standardInputDecoration = InputDecoration(
       borderSide: BorderSide.none,
       borderRadius: BorderRadius.circular(30),
     ),
-    // errorBorder: InputBorder.none,
+    errorStyle: TextStyle(color: Colors.redAccent),
     disabledBorder: InputBorder.none,
     contentPadding: EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
     hintStyle: TextStyle(color: Colors.white54),

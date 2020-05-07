@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/loginBloc/login_bloc.dart';
-import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/widgets.dart';
 
 class LoginForm extends StatefulWidget {
@@ -34,7 +33,7 @@ class _LoginFormState extends State<LoginForm> {
           bloc: _loginBloc,
           builder: (BuildContext context, LoginState state) {
             return Container(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 40),
               child: Form(
                 autovalidate: true,
                 child: Column(
@@ -46,12 +45,13 @@ class _LoginFormState extends State<LoginForm> {
                           !state.isEmailValid ? 'Invalid Email' : null,
                     ),
                     standardTextInput(
-                        hintText: 'Password',
-                        controller: _passwordController,
-                        validator: (value) =>
-                            !state.isPasswordValid ? 'Invalid Password' : null,
-                        obscureText: true,
-                        margin: 16),
+                      hintText: 'Password',
+                      controller: _passwordController,
+                      validator: (value) =>
+                          !state.isPasswordValid ? 'Invalid Password' : null,
+                      obscureText: true,
+                      margin: 16,
+                    ),
                     button(
                       context,
                       'Log In',
