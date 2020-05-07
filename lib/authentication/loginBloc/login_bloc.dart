@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:scriptum/authentication/authRepository.dart';
+import 'package:scriptum/authentication/validators.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -35,7 +36,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
 
   Stream<LoginState> emailChangedToState(String email) async* {
-    yield  currentState.copyWith(isEmailValid: Validators.isValidEmail(email));
+    yield  currentState.update(isEmailValid: Validators.isValidEmail(email));
   }
 
   Stream<LoginState> passwordChangedToState(String password) async* {
@@ -71,22 +72,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } catch (e) {
       yield LoginState.failure();
     }
-  }
-}
-
-class Validators {
-  static final RegExp _emailRegExp = RegExp(
-    r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
-  );
-  static final RegExp _passwordRegExp = RegExp(
-    r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
-  );
-
-  static isValidEmail(String email) {
-    return _emailRegExp.hasMatch(email) || email.isEmpty;
-  }
-
-  static isValidPassword(String password) {
-    return password.length > 5;
   }
 }

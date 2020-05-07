@@ -7,6 +7,7 @@ class SignupState extends Equatable {
   final bool isSubmitting;
   final bool isSuccess;
   final bool isFailure;
+  final bool emailInUse;
 
   get isFormValid => isEmailValid && isPasswordValid;
 
@@ -16,17 +17,20 @@ class SignupState extends Equatable {
     @required this.isSubmitting,
     @required this.isSuccess,
     @required this.isFailure,
+    @required this.emailInUse
   })  : assert(isEmailValid != null),
         assert(isPasswordValid != null),
         assert(isSubmitting != null),
         assert(isSuccess != null),
         assert(isFailure != null),
+        assert(emailInUse != null),
         super([
           isEmailValid,
           isPasswordValid,
           isSubmitting,
           isSuccess,
           isFailure,
+          emailInUse,
         ]);
 
   factory SignupState.initial() {
@@ -36,6 +40,7 @@ class SignupState extends Equatable {
       isSubmitting: false,
       isSuccess: false,
       isFailure: false,
+      emailInUse: false,
     );
   }
 
@@ -46,6 +51,7 @@ class SignupState extends Equatable {
       isSubmitting: true,
       isSuccess: false,
       isFailure: false,
+      emailInUse: false,
     );
   }
 
@@ -56,6 +62,7 @@ class SignupState extends Equatable {
       isSubmitting: false,
       isSuccess: true,
       isFailure: false,
+      emailInUse: false,
     );
   }
 
@@ -66,6 +73,18 @@ class SignupState extends Equatable {
       isSubmitting: false,
       isSuccess: false,
       isFailure: true,
+      emailInUse: false,
+    );
+  }
+
+  factory SignupState.emailInUse() {
+    return SignupState._(
+      isEmailValid: true,
+      isPasswordValid: true,
+      isSubmitting: false,
+      isSuccess: false,
+      isFailure: false,
+      emailInUse: true,
     );
   }
 
@@ -75,6 +94,7 @@ class SignupState extends Equatable {
     bool isSubmitting,
     bool isSuccess,
     bool isFailure,
+    bool emailInUse,
   }) {
     return SignupState._(
       isEmailValid: isEmailValid ?? this.isEmailValid,
@@ -82,6 +102,7 @@ class SignupState extends Equatable {
       isSubmitting: isSubmitting ?? this.isSubmitting,
       isSuccess: isSuccess ?? this.isSuccess,
       isFailure: isFailure ?? this.isFailure,
+      emailInUse: emailInUse ?? this.emailInUse,
     );
   }
 
@@ -95,6 +116,7 @@ class SignupState extends Equatable {
       isSubmitting: false,
       isSuccess: false,
       isFailure: false,
+      emailInUse: false,
     );
   }
 
@@ -105,6 +127,7 @@ class SignupState extends Equatable {
       isPasswordValid: $isPasswordValid, 
       isSubmitting: $isSubmitting, 
       isSuccess: $isSuccess, 
-      isFailure: $isFailure)''';
+      isFailure: $isFailure),
+      emailInUse: $emailInUse''';
   }
 }
