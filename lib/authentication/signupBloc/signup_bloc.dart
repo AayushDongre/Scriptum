@@ -30,7 +30,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       yield* mapPasswordChangedToState(event.password);
     }
     if (event is SignUpSubmitted) {
-      yield* mapSubmittedToState(event.email, event.password);
+      yield* mapSubmittedToState(event.email, event.password, event.name);
     }
   }
 
@@ -45,10 +45,11 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   Stream<SignupState> mapSubmittedToState(
     String email,
     String password,
+    String name,
   ) async* {
     yield SignupState.submitting();
     try{
-      await _authRepository.signUpWithEmailAndPassword(email, password);
+      await _authRepository.signUpWithEmailAndPassword(email, password, name);
       yield SignupState.success();
     } catch(e){
       if( e.code == 'ERROR_EMAIL_ALREADY_IN_USE' ){

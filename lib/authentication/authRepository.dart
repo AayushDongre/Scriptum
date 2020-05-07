@@ -13,9 +13,13 @@ class AuthRepository {
         _googleSignIn = googleSignIn ?? GoogleSignIn();
 
 
-  Future<User> signUpWithEmailAndPassword(String email, String password) async {
+  Future<User> signUpWithEmailAndPassword(String email, String password, String name) async {
     AuthResult result  = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-    return User.fromFirebaseUser(result.user);
+    UserUpdateInfo updateInfo = UserUpdateInfo();
+    updateInfo.displayName = name;
+    await result.user.updateProfile(updateInfo);
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    return User.fromFirebaseUser(user);
   }
 
   Future<User> signInWithGoogle() async {

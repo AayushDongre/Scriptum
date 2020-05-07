@@ -29,14 +29,17 @@ class SignUpPasswordChanged extends SignupEvent {
 class SignUpSubmitted extends SignupEvent {
   final String email;
   final String password;
+  final String name;
 
   SignUpSubmitted({
     @required this.email,
     @required this.password,
+    @required this.name
   })  : assert(email != null),
         assert(password != null),
-        super([email, password]);
+        assert(name != null),
+        super([email, password, name]);
 
   @override
-  String toString() => 'SignUpSubmitted(email: $email, password: $password)';
+  String toString() => 'SignUpSubmitted(email: $email, password: $password, name: $name)';
 }

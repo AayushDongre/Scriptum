@@ -42,7 +42,7 @@ class _ScriptumState extends State<Scriptum> {
             if ( state is AuthInitial ){
               return LoginScreen();
             } else if ( state is Authenticated ) {
-              return Container(child: h1('HOME PAGE'));
+              return Container(child: h1(state.user.name));
             }
             else {
               return Container();

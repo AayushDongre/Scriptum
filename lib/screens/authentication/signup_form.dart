@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/authentication/signupBloc/signup_bloc.dart';
 import 'package:scriptum/constants/colors.dart';
@@ -45,7 +46,9 @@ class _SignUpFormState extends State<SignUpForm> {
                         hintText: 'Name',
                         controller: _nameController,
                         validator: (value) =>
-                            value.isEmpty ? 'Please enter your name' : null,
+                            (value.length > 2) || value.isEmpty
+                                ? null
+                                : 'Please enter your name',
                         margin: 16),
                     standardTextInput(
                         hintText: 'Email Adress',
@@ -69,8 +72,15 @@ class _SignUpFormState extends State<SignUpForm> {
                       onPressed: () {
                         if (state.isFormValid &&
                             _emailController.text.isNotEmpty &&
-                            _passwordController.text.isNotEmpty) {
-                          print('sdf');
+                            _passwordController.text.isNotEmpty &&
+                            _nameController.text.length > 2) {
+                          _signupBloc.dispatch(
+                            SignUpSubmitted(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                              name: _nameController.text,
+                            ),
+                          );
                         }
                       },
                     ),
@@ -82,7 +92,30 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  void blocListener(BuildContext context, SignupState state) {}
+  void blocListener(BuildContext context, SignupState state) {
+    if(state.isSubmitting){
+       Scaffold.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+            snackbar('Submitting', Icons.timer));
+    }
+    if(state.emailInUse){
+       Scaffold.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+            snackbar('This email is already in use!', Icons.error));
+    }
+    if(state.isFailure){
+       Scaffold.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+            snackbar('Something went wrong!', Icons.error));
+    }
+    if(state.isSuccess){
+      BlocProvider.of<AuthBloc>(context).dispatch(LoggedIn());
+      Navigator.pop(context);
+    }
+  }
 
   void onEmailChanged() {
     _signupBloc.dispatch(
