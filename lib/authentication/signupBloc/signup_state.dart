@@ -9,29 +9,31 @@ class SignupState extends Equatable {
   final bool isFailure;
   final bool emailInUse;
 
+  List<Object> get props => [
+        isEmailValid,
+        isPasswordValid,
+        isSubmitting,
+        isSuccess,
+        isFailure,
+        emailInUse,
+      ];
+
   get isFormValid => isEmailValid && isPasswordValid;
 
-  SignupState._({
-    @required this.isEmailValid,
-    @required this.isPasswordValid,
-    @required this.isSubmitting,
-    @required this.isSuccess,
-    @required this.isFailure,
-    @required this.emailInUse
-  })  : assert(isEmailValid != null),
+  SignupState._(
+      {@required this.isEmailValid,
+      @required this.isPasswordValid,
+      @required this.isSubmitting,
+      @required this.isSuccess,
+      @required this.isFailure,
+      @required this.emailInUse})
+      : assert(isEmailValid != null),
         assert(isPasswordValid != null),
         assert(isSubmitting != null),
         assert(isSuccess != null),
         assert(isFailure != null),
         assert(emailInUse != null),
-        super([
-          isEmailValid,
-          isPasswordValid,
-          isSubmitting,
-          isSuccess,
-          isFailure,
-          emailInUse,
-        ]);
+        super();
 
   factory SignupState.initial() {
     return SignupState._(

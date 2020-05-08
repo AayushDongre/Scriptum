@@ -2,11 +2,13 @@ part of 'login_bloc.dart';
 
 @immutable
 abstract class LoginEvent extends Equatable {
-  LoginEvent([props = const []]) : super([props]);
+  LoginEvent([props = const []]) : super();
 }
 
 class EmailChanged extends LoginEvent {
   final String email;
+
+  List<Object> get props => [email];
 
   EmailChanged({@required this.email}) : super([email]);
 
@@ -17,6 +19,8 @@ class EmailChanged extends LoginEvent {
 class PasswordChanged extends LoginEvent {
   final String password;
 
+  List<Object> get props => [password];
+
   PasswordChanged({@required this.password}) : super([password]);
 
   @override
@@ -26,6 +30,8 @@ class PasswordChanged extends LoginEvent {
 class Submitted extends LoginEvent {
   final String email;
   final String password;
+
+  List<Object> get props => [email, password];
 
   Submitted({
     @required this.email,
@@ -40,6 +46,8 @@ class CredentialSignIn extends LoginEvent {
   final String email;
   final String password;
 
+  List<Object> get props => [email, password];
+
   CredentialSignIn({
     @required this.email,
     @required this.password,
@@ -50,6 +58,8 @@ class CredentialSignIn extends LoginEvent {
 }
 
 class GoogleSignIn extends LoginEvent {
+  List<Object> get props => [];
+  
   @override
   String toString() => 'GoogleSignIn()';
 }

@@ -18,17 +18,22 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: h1('HOME'),
+        actions: <Widget>[
+          RaisedButton(
+              child: h2('Logout'),
+              onPressed: () => context.bloc<AuthBloc>().add(LoggedOut()))
+        ],
       ),
       body: Container(
         color: backgroundColor,
         child: ListView(
           children: <Widget>[
-            Text('yeas')
+            h1(context.repository<AuthRepository>().currentUser.name)
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => print(context.repository<AuthRepository>().currentUser),
+        onPressed: () => print(''),
         child: Icon(Icons.camera_alt),
       ),
     );

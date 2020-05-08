@@ -10,6 +10,16 @@ class LoginState extends Equatable {
   final bool emailIsCorrect;
   final bool passwordIsCorrect;
 
+  List<Object> get props => [
+          isEmailValid,
+          isPasswordValid,
+          isSubmitting,
+          isSuccesful,
+          isFailure,
+          emailIsCorrect,
+          passwordIsCorrect,
+        ];
+
   bool get isFormValid => isEmailValid && isPasswordValid;
 
   LoginState._({
@@ -20,15 +30,7 @@ class LoginState extends Equatable {
     @required this.isFailure,
     @required this.emailIsCorrect,
     @required this.passwordIsCorrect,
-  }) : super([
-          isEmailValid,
-          isPasswordValid,
-          isSubmitting,
-          isSuccesful,
-          isFailure,
-          emailIsCorrect,
-          passwordIsCorrect,
-        ]);
+  }) : super();
 
   factory LoginState.initial() {
     return LoginState._(
