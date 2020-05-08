@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 
 class Note {
+  String uid;
   File file;
   String title;
   List<String> tags;
@@ -16,6 +17,7 @@ class Note {
   set noteContent(content) => content;
 
   Note({
+    @required this.uid,
     @required this.file,
     @required this.title,
     @required this.tags,
@@ -27,12 +29,12 @@ class Note {
         assert(tags != null),
         assert(timeStamp != null);
 
-  
-  Map<String, dynamic> tomap(){
+  Map<String, dynamic> tomap() {
     return {
       'id': id,
+      'uid': uid,
       'title': title,
-      'tags' : tags,
+      'tags': tags,
       'timestamp': timeStamp,
       'comment': comment,
       'content': content
@@ -42,29 +44,30 @@ class Note {
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
-  
+
     return o is Note &&
-      o.file == file &&
-      o.title == title &&
-      listEquals(o.tags, tags) &&
-      o.timeStamp == timeStamp &&
-      o.comment == comment &&
-      o.content == content;
+        o.file == file &&
+        o.title == title &&
+        listEquals(o.tags, tags) &&
+        o.timeStamp == timeStamp &&
+        o.comment == comment &&
+        o.content == content;
   }
 
   @override
   int get hashCode {
     return file.hashCode ^
-      title.hashCode ^
-      tags.hashCode ^
-      timeStamp.hashCode ^
-      comment.hashCode ^
-      content.hashCode;
+        title.hashCode ^
+        tags.hashCode ^
+        timeStamp.hashCode ^
+        comment.hashCode ^
+        content.hashCode;
   }
 
   @override
   String toString() {
     return '''Note(
+      uid: $uid,
       file: $file, 
       title: $title, 
       tags: $tags, 

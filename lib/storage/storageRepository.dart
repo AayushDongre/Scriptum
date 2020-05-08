@@ -9,7 +9,18 @@ class StorageRepository {
       : _firebaseStorage = firebaseStorage ?? FirebaseStorage();
 
   Future<bool> uploadNote(User user, Note note) async {
-    StorageUploadTask task =  _firebaseStorage.ref().child('${user.uid}/${note.id}').putFile(note.file);
+    StorageUploadTask task = _firebaseStorage
+        .ref()
+        .child('${user.uid}/${note.id}')
+        .putFile(note.file);
     return task.isComplete;
+  }
+
+  Future<String> getNote(User user, Note note) async {
+    String downloadLink = await _firebaseStorage
+        .ref()
+        .child('${user.uid}/${note.id}')
+        .getDownloadURL();
+    return downloadLink;
   }
 }
