@@ -7,6 +7,7 @@ import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
+import 'package:scriptum/screens/upload/upload_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -36,10 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        // onPressed: () => Navigator.pushNamed(context, '/camera'),
         onPressed: () async{
           print('yess');
           File file = await ImagePicker.pickImage(source: ImageSource.camera);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => UploadScreen(file: file),));
         },
         child: Icon(Icons.camera_alt),
       ),

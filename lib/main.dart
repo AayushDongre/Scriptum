@@ -5,9 +5,9 @@ import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/screens/authentication/login_screen.dart';
 import 'package:scriptum/screens/authentication/signup_screen.dart';
-import 'package:scriptum/screens/camera_screen.dart';
 import 'package:scriptum/screens/home_screen.dart';
 import 'package:scriptum/screens/splash_screen.dart';
+import 'package:scriptum/screens/upload/upload_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +46,6 @@ class _ScriptumState extends State<Scriptum> {
         routes: {
           '/signup': (BuildContext context) => SignUpScreen(),
           '/login': (BuildContext context) => LoginScreen(),
-          '/camera': (BuildContext context) => CameraScreen(camera: widget.camera),
         },
         theme: ThemeData.dark(),
         home: BlocBuilder(

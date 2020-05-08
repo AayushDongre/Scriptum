@@ -5,15 +5,19 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/authentication/validators.dart';
+import 'package:scriptum/database/dbRepository.dart';
+import 'package:scriptum/models/user.dart';
 
 part 'signup_event.dart';
 part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   AuthRepository _authRepository;
+  DBRepository _dbRepository;
 
-  SignupBloc({@required AuthRepository authRepository})
+  SignupBloc({@required AuthRepository authRepository, DBRepository dbRepository})
       : assert(authRepository != null),
+        _dbRepository = dbRepository ?? DBRepository(),
         _authRepository = authRepository;
 
   @override
@@ -49,7 +53,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   ) async* {
     yield SignupState.submitting();
     try{
-      await _authRepository.signUpWithEmailAndPassword(email, password, name);
+     User user = await _authRepository.signUpWithEmailAndPassword(email, password, name);
+      await _dbRepository.initialiseUser(user);
       yield SignupState.success();
     } catch(e){
       if( e.code == 'ERROR_EMAIL_ALREADY_IN_USE' ){
