@@ -110,7 +110,6 @@ class _LoginFormState extends State<LoginForm> {
     if (state.isSuccesful) {
       BlocProvider.of<AuthBloc>(context).dispatch(LoggedIn());
     }
-    print(state);
   }
 
   void emailListener() {

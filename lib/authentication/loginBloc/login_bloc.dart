@@ -53,7 +53,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await _authRepository.signInWithCredentials(email, password);
       yield LoginState.success();
     } catch (e) {
-      print(e.code + 'sfsdfs');
       if (e.code == 'ERROR_USER_NOT_FOUND') {
         yield LoginState.incorrectEmail();
       } else if (e.code == 'ERROR_WRONG_PASSWORD') {

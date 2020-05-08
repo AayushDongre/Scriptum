@@ -34,6 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> appStartedToState() async* {
     final bool isSignedIn = await _authRepository.isSignIn();
+    print(isSignedIn.toString() + ' XXXXXXXXXXXXXXXXXXXXX');
     if (isSignedIn) {
       final User user = await _authRepository.getCurrentUser();
       yield Authenticated(user);

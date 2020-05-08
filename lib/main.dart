@@ -5,6 +5,8 @@ import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/typography.dart';
 import 'package:scriptum/screens/authentication/login_screen.dart';
 import 'package:scriptum/screens/authentication/signup_screen.dart';
+import 'package:scriptum/screens/home_screen.dart';
+import 'package:scriptum/screens/splash_screen.dart';
 void main() => runApp(Scriptum());
 
 class Scriptum extends StatefulWidget {
@@ -23,6 +25,7 @@ class _ScriptumState extends State<Scriptum> {
   void initState() {
     super.initState();
     _authBloc = AuthBloc(authRepository: _authRepository);
+    _authBloc.dispatch(AppStarted());
   }
 
   @override
@@ -39,14 +42,15 @@ class _ScriptumState extends State<Scriptum> {
         home: BlocBuilder(
           bloc: _authBloc,
           builder: (BuildContext context, AuthState state) {
-            if ( state is AuthInitial ){
-              return LoginScreen();
-            } else if ( state is Authenticated ) {
+            if ( state is Authenticated ) {
               // _authBloc.dispatch(LoggedOut());
-              return Container(child: h1(state.user.name));
+              return HomeScreen();
             }
-            else {
-              return Container();
+            if ( state is AuthInitial ){
+              return SplashScreen();
+            } 
+            else  {
+              return LoginScreen();
             }
           },
         ),
