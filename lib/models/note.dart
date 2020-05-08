@@ -11,6 +11,10 @@ class Note {
   String comment;
   String content;
 
+  String get id => title + timeStamp.millisecondsSinceEpoch.toString();
+  String get noteContent => content;
+  set noteContent(content) => content;
+
   Note({
     @required this.file,
     @required this.title,
@@ -22,6 +26,18 @@ class Note {
         assert(title != null),
         assert(tags != null),
         assert(timeStamp != null);
+
+  
+  Map<String, dynamic> tomap(){
+    return {
+      'id': id,
+      'title': title,
+      'tags' : tags,
+      'timestamp': timeStamp,
+      'comment': comment,
+      'content': content
+    };
+  }
 
   @override
   bool operator ==(Object o) {
