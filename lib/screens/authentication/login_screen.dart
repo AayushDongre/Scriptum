@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         backgroundColor: backgroundColor,
         body: BlocProvider(
-          bloc: _loginBloc,
+          create:(BuildContext context) => _loginBloc,
           child: Container(
             alignment: Alignment.center,
             padding: EdgeInsets.only(top: 24, left: 16),
@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    _loginBloc.dispose();
+    _loginBloc.close();
     super.dispose();
   }
 }

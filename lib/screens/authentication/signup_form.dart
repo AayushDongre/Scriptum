@@ -70,7 +70,7 @@ class _SignUpFormState extends State<SignUpForm> {
                             _emailController.text.isNotEmpty &&
                             _passwordController.text.isNotEmpty &&
                             _nameController.text.length > 2) {
-                          _signupBloc.dispatch(
+                          _signupBloc.add(
                             SignUpSubmitted(
                               email: _emailController.text,
                               password: _passwordController.text,
@@ -105,19 +105,19 @@ class _SignUpFormState extends State<SignUpForm> {
         ..showSnackBar(snackbar('Something went wrong!', Icons.error));
     }
     if (state.isSuccess) {
-      BlocProvider.of<AuthBloc>(context).dispatch(LoggedIn());
+      BlocProvider.of<AuthBloc>(context).add(LoggedIn());
       Navigator.pop(context);
     }
   }
 
   void onEmailChanged() {
-    _signupBloc.dispatch(
+    _signupBloc.add(
       SignUpEmailChanged(email: _emailController.text),
     );
   }
 
   void onPasswordChanged() {
-    _signupBloc.dispatch(
+    _signupBloc.add(
       SignUpPasswordChanged(password: _passwordController.text),
     );
   }
@@ -126,7 +126,7 @@ class _SignUpFormState extends State<SignUpForm> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _signupBloc.dispose();
+    _signupBloc.close();
     super.dispose();
   }
 }

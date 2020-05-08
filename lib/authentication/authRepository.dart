@@ -7,6 +7,9 @@ import 'package:scriptum/models/user.dart';
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
+  User user;
+
+   User get currentUser => user;
 
   AuthRepository({FirebaseAuth firebaseAuth, GoogleSignIn googleSignIn})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
@@ -18,8 +21,9 @@ class AuthRepository {
     UserUpdateInfo updateInfo = UserUpdateInfo();
     updateInfo.displayName = name;
     await result.user.updateProfile(updateInfo);
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    return User.fromFirebaseUser(user);
+    FirebaseUser u = await _firebaseAuth.currentUser();
+    user = User.fromFirebaseUser(u);
+    return user;
   }
 
   Future<User> signInWithGoogle() async {
@@ -40,7 +44,8 @@ class AuthRepository {
       email: email,
       password: password,
     );
-    return User.fromFirebaseUser(authResult.user);
+    user = User.fromFirebaseUser(authResult.user);
+    return user;
   }
 
   Future<void> logout() async {
@@ -54,6 +59,7 @@ class AuthRepository {
 
   Future<User> getCurrentUser() async {
     final FirebaseUser  currentUser = await _firebaseAuth.currentUser();
-    return User.fromFirebaseUser(currentUser);
+    user = User.fromFirebaseUser(currentUser);
+    return user;
   }
 }

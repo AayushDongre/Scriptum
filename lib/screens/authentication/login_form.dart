@@ -59,7 +59,7 @@ class _LoginFormState extends State<LoginForm> {
                         if (state.isFormValid &&
                             _emailController.text.isNotEmpty &&
                             _passwordController.text.isNotEmpty) {
-                          _loginBloc.dispatch(CredentialSignIn(
+                          _loginBloc.add(CredentialSignIn(
                             email: _emailController.text,
                             password: _passwordController.text,
                           ));
@@ -108,25 +108,25 @@ class _LoginFormState extends State<LoginForm> {
         ..showSnackBar(snackbar('Logging In', Icons.timer));
     }
     if (state.isSuccesful) {
-      BlocProvider.of<AuthBloc>(context).dispatch(LoggedIn());
+      BlocProvider.of<AuthBloc>(context).add(LoggedIn());
     }
   }
 
   void emailListener() {
-    _loginBloc.dispatch(
+    _loginBloc.add(
       EmailChanged(email: _emailController.text),
     );
   }
 
   void passwordListener() {
-    _loginBloc.dispatch(
+    _loginBloc.add(
       PasswordChanged(password: _passwordController.text),
     );
   }
 
   @override
   void dispose() {
-    _loginBloc.dispose();
+    _loginBloc.close();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();

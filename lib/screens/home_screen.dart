@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
+import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
 
@@ -19,8 +22,14 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         color: backgroundColor,
         child: ListView(
-          children: <Widget>[],
+          children: <Widget>[
+            Text('yeas')
+          ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => print(context.repository<AuthRepository>().currentUser),
+        child: Icon(Icons.camera_alt),
       ),
     );
   }

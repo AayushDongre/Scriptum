@@ -25,13 +25,13 @@ class _ScriptumState extends State<Scriptum> {
   void initState() {
     super.initState();
     _authBloc = AuthBloc(authRepository: _authRepository);
-    _authBloc.dispatch(AppStarted());
+    _authBloc.add(AppStarted());
   }
 
   @override
   Widget build(BuildContext context) {
     return  BlocProvider(
-      bloc: _authBloc,
+      create: (BuildContext context) => _authBloc,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: {
@@ -44,7 +44,10 @@ class _ScriptumState extends State<Scriptum> {
           builder: (BuildContext context, AuthState state) {
             if ( state is Authenticated ) {
               // _authBloc.dispatch(LoggedOut());
-              return HomeScreen();
+              return RepositoryProvider(
+                create: (context) => _authRepository,
+                child: HomeScreen(),
+              );
             }
             if ( state is AuthInitial ){
               return SplashScreen();
@@ -59,7 +62,7 @@ class _ScriptumState extends State<Scriptum> {
   }
   @override
   void dispose() { 
-    _authBloc.dispose();
+    _authBloc.close();
     super.dispose();
   }
 }

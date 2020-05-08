@@ -21,7 +21,7 @@ class Authenticated extends AuthState{
   Authenticated(this.user) : super([user]);
 
   @override
-  String toString() => 'Authenticated State';
+  String toString() => 'Authenticated(${user.toString()})';
 }
 
 

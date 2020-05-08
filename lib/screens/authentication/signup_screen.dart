@@ -29,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Scaffold(
         backgroundColor: backgroundColor,
         body: BlocProvider(
-          bloc: _signupBloc,
+          create: (BuildContext context) => _signupBloc,
           child: Container(
             alignment: Alignment.center,
             padding: EdgeInsets.only(top: 24, left: 16),
@@ -50,7 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    _signupBloc.dispose();
+    _signupBloc.close();
     super.dispose();
   }
 }
