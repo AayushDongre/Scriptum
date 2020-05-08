@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:scriptum/constants/colors.dart';
 
 class UploadScreen extends StatefulWidget {
-  File file;
+  final File file;
 
   UploadScreen({Key key, @required this.file}) : super(key: key);
 

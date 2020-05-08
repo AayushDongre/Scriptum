@@ -7,7 +7,6 @@ import 'package:scriptum/screens/authentication/login_screen.dart';
 import 'package:scriptum/screens/authentication/signup_screen.dart';
 import 'package:scriptum/screens/home_screen.dart';
 import 'package:scriptum/screens/splash_screen.dart';
-import 'package:scriptum/screens/upload/upload_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +19,7 @@ class Scriptum extends StatefulWidget {
 
   final CameraDescription camera;
 
-  Scriptum({Key key, @required this.camera}) : super(key: key);
+  Scriptum({Key key, this.camera}) : super(key: key);
 
   @override
   _ScriptumState createState() => _ScriptumState();

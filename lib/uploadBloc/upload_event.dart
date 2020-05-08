@@ -5,17 +5,6 @@ abstract class UploadEvent extends Equatable {
   const UploadEvent();
 }
 
-class TitleChanged extends UploadEvent {
-  final String title;
-
-  const TitleChanged({@required this.title});
-
-  @override
-  List<Object> get props => [];
-
-  @override
-  String toString() => 'TitleChanged(title: $title)';
-}
 
 class AddTag extends UploadEvent {
   final String tag;

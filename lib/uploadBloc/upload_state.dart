@@ -6,7 +6,6 @@ class UploadState extends Equatable {
   final bool isEtractingText;
   final bool isUploadingToStorage;
   final bool isUploadingData;
-  final bool isTitleValid;
   final bool isSuccess;
   final bool isFailure;
 
@@ -15,14 +14,12 @@ class UploadState extends Equatable {
     @required this.isEtractingText,
     @required this.isUploadingData,
     @required this.isUploadingToStorage,
-    @required this.isTitleValid,
     @required this.isSuccess,
     @required this.isFailure,
   })  : assert(issubmitted != null),
         assert(isEtractingText != null),
         assert(isUploadingData != null),
         assert(isUploadingToStorage != null),
-        assert(isTitleValid != null),
         assert(isSuccess != null),
         assert(isFailure != null);
 
@@ -32,7 +29,6 @@ class UploadState extends Equatable {
       isEtractingText: false,
       isUploadingData: false,
       isUploadingToStorage: false,
-      isTitleValid: true,
       isSuccess: false,
       isFailure: false,
     );
@@ -44,7 +40,6 @@ class UploadState extends Equatable {
       isEtractingText: false,
       isUploadingData: false,
       isUploadingToStorage: false,
-      isTitleValid: true,
       isSuccess: false,
       isFailure: false,
     );
@@ -56,7 +51,6 @@ class UploadState extends Equatable {
       isEtractingText: false,
       isUploadingData: false,
       isUploadingToStorage: false,
-      isTitleValid: true,
       isSuccess: true,
       isFailure: false,
     );
@@ -68,7 +62,6 @@ class UploadState extends Equatable {
       isEtractingText: false,
       isUploadingData: false,
       isUploadingToStorage: false,
-      isTitleValid: true,
       isSuccess: false,
       isFailure: true,
     );
@@ -80,7 +73,6 @@ class UploadState extends Equatable {
       isEtractingText: true,
       isUploadingData: false,
       isUploadingToStorage: false,
-      isTitleValid: true,
       isSuccess: false,
       isFailure: false,
     );
@@ -92,7 +84,6 @@ class UploadState extends Equatable {
       isEtractingText: false,
       isUploadingData: false,
       isUploadingToStorage: true,
-      isTitleValid: true,
       isSuccess: false,
       isFailure: false,
     );
@@ -104,11 +95,43 @@ class UploadState extends Equatable {
       isEtractingText: false,
       isUploadingData: true,
       isUploadingToStorage: false,
-      isTitleValid: true,
       isSuccess: false,
       isFailure: false,
     );
   }
+  // UploadState copyWith({
+  //   bool issubmitted,
+  //   bool isEtractingText,
+  //   bool isUploadingToStorage,
+  //   bool isUploadingData,
+  //   bool isTitleValid,
+  //   bool isSuccess,
+  //   bool isFailure,
+  // }) {
+  //   return UploadState._(
+  //     issubmitted: issubmitted ?? this.issubmitted,
+  //     isEtractingText: isEtractingText ?? this.isEtractingText,
+  //     isUploadingData: isUploadingData ?? this.isUploadingData,
+  //     isUploadingToStorage: isUploadingToStorage ?? this.isUploadingToStorage,
+  //     isTitleValid: isTitleValid ?? this.isTitleValid,
+  //     isSuccess: isSuccess ?? this.isSuccess,
+  //     isFailure: isFailure ?? this.isFailure,
+  //   );
+  // }
+
+  // UploadState update({
+  //   bool isTitleValid,
+  // }) {
+  //   return copyWith(
+  //     issubmitted: false,
+  //     isEtractingText: false,
+  //     isUploadingData: false,
+  //     isUploadingToStorage: false,
+  //     isTitleValid: isTitleValid,
+  //     isSuccess: false,
+  //     isFailure: false,
+  //   );
+  // }
 
   @override
   List<Object> get props => [];
@@ -120,7 +143,6 @@ class UploadState extends Equatable {
       isEtractingText: $isEtractingText, 
       isUploadingToStorage: $isUploadingToStorage, 
       isUploadingData: $isUploadingData, 
-      isTitleValid: $isTitleValid, 
       isSuccess: $isSuccess, 
       isFailure: $isFailure)''';
   }
