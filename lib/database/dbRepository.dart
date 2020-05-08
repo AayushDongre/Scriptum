@@ -32,18 +32,36 @@ class DBRepository {
     DocumentSnapshot snapshot =
         await _firestore.collection('users').document(user.uid).get();
     List<String> tags = snapshot.data['tags'];
-    tags.add(tag);
+    if (!tags.contains(tag)) {
+      tags.add(tag);
+    }
     Map<String, dynamic> updates = {
       'tags': tags,
     };
     await _firestore.collection('users').document(user.uid).updateData(updates);
   }
 
-  Stream<DocumentSnapshot> getUserDetails(User user){
-       return _firestore.collection('users').document(user.uid).snapshots();
+  Future<void> addTags(User user, List<String> newTags) async {
+    DocumentSnapshot snapshot =
+        await _firestore.collection('users').document(user.uid).get();
+    List<String> tags = snapshot.data['tags'] ?? [];
+    newTags.forEach((element) {
+      if (!tags.contains(element)) {
+        tags.add(element);
+        print(element);
+      }
+    });
+    Map<String, dynamic> updates = {
+      'tags': tags,
+    };
+    await _firestore.collection('users').document(user.uid).updateData(updates);
   }
 
-  Stream<QuerySnapshot> getNotesFromTag(String tag, String uid){
+  Stream<DocumentSnapshot> getUserDetails(User user) {
+    return _firestore.collection('users').document(user.uid).snapshots();
+  }
+
+  Stream<QuerySnapshot> getNotesFromTag(String tag, String uid) {
     return _firestore
         .collectionGroup('notes')
         .where('tags', arrayContains: tag)

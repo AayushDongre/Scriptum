@@ -7,6 +7,7 @@ import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
+import 'package:scriptum/models/user.dart';
 import 'package:scriptum/screens/upload/upload_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,6 +18,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+User user;
+
+  @override
+  void initState() { 
+    super.initState();
+    user = context.repository<AuthRepository>().currentUser;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,15 +41,22 @@ class _HomeScreenState extends State<HomeScreen> {
         color: backgroundColor,
         child: ListView(
           children: <Widget>[
-            h1(context.repository<AuthRepository>().currentUser.name)
+            h1(user.name)
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async{
+        onPressed: () async {
           print('yess');
           File file = await ImagePicker.pickImage(source: ImageSource.camera);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => UploadScreen(file: file),));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UploadScreen(
+                  file: file,
+                  user: user,
+                ),
+              ));
         },
         child: Icon(Icons.camera_alt),
       ),

@@ -13,19 +13,13 @@ part 'upload_event.dart';
 part 'upload_state.dart';
 
 class UploadBloc extends Bloc<UploadEvent, UploadState> {
-  DBRepository _dbRepository;
-  StorageRepository _storageRepository;
+  DBRepository _dbRepository = DBRepository();
+  StorageRepository _storageRepository = StorageRepository();
   User _user;
 
   UploadBloc({
-    @required DBRepository dbRepository,
-    @required StorageRepository storageRepository,
     @required User user,
-  })  : assert(dbRepository != null),
-        assert(storageRepository != null),
-        assert(user != null),
-        _dbRepository = dbRepository,
-        _storageRepository = storageRepository,
+  })  : assert(user != null),
         _user = user;
 
   @override
@@ -69,6 +63,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
       yield UploadState.uploadingData();
       await _dbRepository.uploadNoteData(_user, note);
+      await _dbRepository.addTags(_user, note.tags);
 
       yield UploadState.success();
     } catch (e) {
