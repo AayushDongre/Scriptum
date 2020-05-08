@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/colors.dart';
@@ -33,7 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => print(''),
+        // onPressed: () => Navigator.pushNamed(context, '/camera'),
+        onPressed: () async{
+          print('yess');
+          File file = await ImagePicker.pickImage(source: ImageSource.camera);
+        },
         child: Icon(Icons.camera_alt),
       ),
     );
