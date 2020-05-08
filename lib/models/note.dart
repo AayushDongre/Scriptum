@@ -35,7 +35,7 @@ class Note {
       'uid': uid,
       'title': title,
       'tags': tags,
-      'timestamp': timeStamp,
+      'timestamp': timeStamp.millisecondsSinceEpoch,
       'comment': comment,
       'content': content
     };

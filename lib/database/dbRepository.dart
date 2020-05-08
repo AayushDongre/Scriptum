@@ -20,12 +20,6 @@ class DBRepository {
     });
   }
 
-  Future<Map<String, dynamic>> getUserDetails(User user) async {
-    DocumentSnapshot snapshot =
-        await _firestore.collection('users').document(user.uid).get();
-    return snapshot.data;
-  }
-
   Future<void> uploadNoteData(User user, Note note) async {
     await _firestore
         .collection('users')
@@ -46,18 +40,15 @@ class DBRepository {
     await _firestore.collection('users').document(user.uid).updateData(updates);
   }
 
-  Future<List<Map<String, dynamic>>> getFromTags(String tag, String uid) async {
-    QuerySnapshot qSnapshot = await _firestore
+  Stream<DocumentSnapshot> getUserDetails(User user){
+       return _firestore.collection('users').document(user.uid).snapshots();
+  }
+
+  Stream<QuerySnapshot> getNotesFromTag(String tag, String uid){
+    return _firestore
         .collectionGroup('notes')
         .where('tags', arrayContains: tag)
         .where('uid', isEqualTo: uid)
-        .getDocuments();
-    List<Map<String, dynamic>> notes;
-
-    qSnapshot.documents.forEach((DocumentSnapshot element) {
-      notes.add(element.data);
-    });
-
-    return notes;
+        .snapshots();
   }
 }
