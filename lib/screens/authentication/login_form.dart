@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
+import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/authentication/loginBloc/login_bloc.dart';
 import 'package:scriptum/constants/widgets.dart';
 
@@ -21,7 +22,7 @@ class _LoginFormState extends State<LoginForm> {
     super.initState();
     _emailController.addListener(emailListener);
     _passwordController.addListener(passwordListener);
-    _loginBloc = BlocProvider.of<LoginBloc>(context);
+    _loginBloc = LoginBloc(authRepository: context.repository<AuthRepository>());
   }
 
   @override

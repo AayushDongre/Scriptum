@@ -15,12 +15,10 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final AuthRepository _authRepository = AuthRepository();
-  SignupBloc _signupBloc;
 
   @override
   void initState() {
     super.initState();
-    _signupBloc = SignupBloc(authRepository: _authRepository);
   }
 
   @override
@@ -28,9 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
-        body: BlocProvider(
-          create: (BuildContext context) => _signupBloc,
-          child: Container(
+        body: Container(
             alignment: Alignment.center,
             padding: EdgeInsets.only(top: 24, left: 16),
             child: ListView(
@@ -43,14 +39,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
           ),
-        ),
       ),
     );
   }
 
   @override
   void dispose() {
-    _signupBloc.close();
     super.dispose();
   }
 }

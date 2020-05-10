@@ -4,6 +4,7 @@ import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/authentication/signupBloc/signup_bloc.dart';
 import 'package:scriptum/constants/widgets.dart';
+import 'package:scriptum/database/dbRepository.dart';
 
 class SignUpForm extends StatefulWidget {
   SignUpForm({Key key}) : super(key: key);
@@ -16,7 +17,6 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  final AuthRepository _authRepository = AuthRepository();
   SignupBloc _signupBloc;
 
   @override
@@ -24,7 +24,7 @@ class _SignUpFormState extends State<SignUpForm> {
     super.initState();
     _emailController.addListener(onEmailChanged);
     _emailController.addListener(onPasswordChanged);
-    _signupBloc = SignupBloc(authRepository: _authRepository);
+    _signupBloc = SignupBloc(authRepository: context.repository<AuthRepository>(), dbRepository: context.repository<DBRepository>());
   }
 
   @override

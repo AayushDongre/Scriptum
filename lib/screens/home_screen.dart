@@ -18,10 +18,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-User user;
+  User user;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     user = context.repository<AuthRepository>().currentUser;
   }
@@ -40,9 +40,7 @@ User user;
       body: Container(
         color: backgroundColor,
         child: ListView(
-          children: <Widget>[
-            h1(user.name)
-          ],
+          children: <Widget>[h1(user.name)],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -50,13 +48,13 @@ User user;
           print('yess');
           File file = await ImagePicker.pickImage(source: ImageSource.camera);
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => UploadScreen(
-                  file: file,
-                  user: user,
-                ),
-              ));
+            context,
+            MaterialPageRoute(
+              builder: (context) => UploadScreen(
+                file: file,
+              ),
+            ),
+          );
         },
         child: Icon(Icons.camera_alt),
       ),

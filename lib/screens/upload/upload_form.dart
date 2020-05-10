@@ -2,18 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/widgets.dart';
+import 'package:scriptum/database/dbRepository.dart';
 import 'package:scriptum/models/note.dart';
 import 'package:scriptum/models/user.dart';
+import 'package:scriptum/storage/storageRepository.dart';
 import 'package:scriptum/uploadBloc/upload_bloc.dart';
 
 class UploadForm extends StatefulWidget {
-  final User user;
   final File file;
 
   UploadForm({
     Key key,
-    @required this.user,
     @required this.file,
   }) : super(key: key);
 
@@ -27,12 +28,18 @@ class _UploadFormState extends State<UploadForm> {
   final TextEditingController _tagsController = TextEditingController();
   UploadBloc _uploadBloc;
   String snackBarMessage;
+  User user;
 
   @override
   void initState() {
     super.initState();
     snackBarMessage = 'Extracting Text';
-    _uploadBloc = UploadBloc(user: widget.user);
+    user = context.repository<AuthRepository>().currentUser;
+    _uploadBloc = UploadBloc(
+      dbRepository: context.repository<DBRepository>(),
+      storageRepository: context.repository<StorageRepository>(),
+      user: user,
+    );
   }
 
   @override
@@ -73,18 +80,16 @@ class _UploadFormState extends State<UploadForm> {
                         _uploadBloc.add(
                           UploadSubmitted(
                             note: Note(
-                              uid: widget.user.uid,
-                              file: widget.file,
-                              title: _titleController.text,
-                              tags: ['maths', 'important'],
-                              timeStamp: DateTime.now(),
-                              comment: _commentController.text
-                            ),
+                                uid: user.uid,
+                                file: widget.file,
+                                title: _titleController.text,
+                                tags: ['maths', 'important'],
+                                timeStamp: DateTime.now(),
+                                comment: _commentController.text),
                           ),
                         );
                         Scaffold.of(context)
-                          ..showSnackBar(
-                              snackbar(snackBarMessage, Icons.info));
+                          ..showSnackBar(snackbar(snackBarMessage, Icons.info));
                       }
                     },
                   )

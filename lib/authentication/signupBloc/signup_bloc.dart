@@ -15,9 +15,12 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   AuthRepository _authRepository;
   DBRepository _dbRepository;
 
-  SignupBloc({@required AuthRepository authRepository, DBRepository dbRepository})
+  SignupBloc(
+      {@required AuthRepository authRepository,
+      @required DBRepository dbRepository})
       : assert(authRepository != null),
-        _dbRepository = dbRepository ?? DBRepository(),
+        assert(dbRepository != null),
+        _dbRepository = dbRepository,
         _authRepository = authRepository;
 
   @override
@@ -52,12 +55,13 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     String name,
   ) async* {
     yield SignupState.submitting();
-    try{
-     User user = await _authRepository.signUpWithEmailAndPassword(email, password, name);
+    try {
+      User user = await _authRepository.signUpWithEmailAndPassword(
+          email, password, name);
       await _dbRepository.initialiseUser(user);
       yield SignupState.success();
-    } catch(e){
-      if( e.code == 'ERROR_EMAIL_ALREADY_IN_USE' ){
+    } catch (e) {
+      if (e.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
         yield SignupState.emailInUse();
       } else {
         yield SignupState.failure();

@@ -8,9 +8,8 @@ import 'package:scriptum/screens/upload/upload_form.dart';
 
 class UploadScreen extends StatefulWidget {
   final File file;
-  final User user;
-  UploadScreen({Key key, @required this.file, @required this.user})
-      : assert(user != null),
+  UploadScreen({Key key, @required this.file})
+      :
         super(key: key);
 
   @override
@@ -59,7 +58,6 @@ class _UploadScreenState extends State<UploadScreen> {
             ],
           ),
           UploadForm(
-            user: widget.user,
             file: widget.file,
           ),
         ],

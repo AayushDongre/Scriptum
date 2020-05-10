@@ -12,13 +12,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final AuthRepository _authRepository = AuthRepository();
-  LoginBloc _loginBloc;
-
   @override
   void initState() {
     super.initState();
-    _loginBloc = LoginBloc(authRepository: _authRepository);
   }
 
   @override
@@ -26,21 +22,17 @@ class _LoginScreenState extends State<LoginScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
-        body: BlocProvider(
-          create:(BuildContext context) => _loginBloc,
-          child: Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.only(top: 24, left: 16),
-            child: ListView(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 40),
-                  child: h1('Login', fontSize: 48),
-                ),
-                LoginForm(),
-                
-              ],
-            ),
+        body: Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(top: 24, left: 16),
+          child: ListView(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 40),
+                child: h1('Login', fontSize: 48),
+              ),
+              LoginForm(),
+            ],
           ),
         ),
       ),
@@ -49,7 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    _loginBloc.close();
     super.dispose();
   }
 }

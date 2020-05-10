@@ -14,11 +14,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final cameras = await availableCameras();
   final firstCamera = cameras.first;
-  runApp(Scriptum(camera: firstCamera,));
+  runApp(Scriptum(
+    camera: firstCamera,
+  ));
 }
 
 class Scriptum extends StatefulWidget {
-
   final CameraDescription camera;
 
   Scriptum({Key key, this.camera}) : super(key: key);
@@ -28,9 +29,9 @@ class Scriptum extends StatefulWidget {
 }
 
 class _ScriptumState extends State<Scriptum> {
-   AuthRepository _authRepository;
-   StorageRepository _storageRepository;
-   DBRepository _dbRepository;
+  AuthRepository _authRepository;
+  StorageRepository _storageRepository;
+  DBRepository _dbRepository;
   AuthBloc _authBloc;
 
   @override
@@ -46,43 +47,42 @@ class _ScriptumState extends State<Scriptum> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => _authBloc,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        routes: {
-          '/signup': (BuildContext context) => SignUpScreen(),
-          '/login': (BuildContext context) => LoginScreen(),
-        },
-        theme: ThemeData.dark(),
-        home: BlocBuilder(
-          bloc: _authBloc,
-          builder: (BuildContext context, AuthState state) {
-            if (state is Authenticated) {
-              // _authBloc.dispatch(LoggedOut());
-              return MultiRepositoryProvider(
-                providers: [
-                  RepositoryProvider<AuthRepository>(
-                    create: (BuildContext context) => _authRepository,
-                  ),
-                  RepositoryProvider<DBRepository>(
-                    create: (BuildContext context) => _dbRepository,
-                  ),
-                  RepositoryProvider<StorageRepository>(
-                    create: (BuildContext context) => _storageRepository,
-                  )
-                ],
-                child: HomeScreen(),
-              );
-            }
-            if (state is AuthInitial) {
-              return SplashScreen();
-            } else {
-              return LoginScreen();
-            }
-          },
-        ),
-      ),
-    );
+        create: (BuildContext context) => _authBloc,
+        child: MultiRepositoryProvider(
+          providers: [
+            RepositoryProvider<AuthRepository>(
+              create: (BuildContext context) => _authRepository,
+            ),
+            RepositoryProvider<DBRepository>(
+              create: (BuildContext context) => _dbRepository,
+            ),
+            RepositoryProvider<StorageRepository>(
+              create: (BuildContext context) => _storageRepository,
+            )
+          ],
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            routes: {
+              '/signup': (BuildContext context) => SignUpScreen(),
+              '/login': (BuildContext context) => LoginScreen(),
+            },
+            theme: ThemeData.dark(),
+            home: BlocBuilder(
+              bloc: _authBloc,
+              builder: (BuildContext context, AuthState state) {
+                if (state is Authenticated) {
+                  // _authBloc.dispatch(LoggedOut());
+                  return HomeScreen();
+                }
+                if (state is AuthInitial) {
+                  return SplashScreen();
+                } else {
+                  return LoginScreen();
+                }
+              },
+            ),
+          ),
+        ));
   }
 
   @override
