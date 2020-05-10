@@ -55,11 +55,13 @@ class DBRepository {
     bool contains = false;
     DateTime now = DateTime(date.year, date.month, date.day);
     for (int i = 0; i < dates.length; i++) {
-      if(now.day == dates[i].day && now.month == dates[i].month && now.year == dates[i].year){
+      if (now.day == dates[i].day &&
+          now.month == dates[i].month &&
+          now.year == dates[i].year) {
         contains = true;
       }
     }
-    if(!contains) dates.add(now);
+    if (!contains) dates.add(now);
 
     Map<String, dynamic> updates = {
       'tags': tags,
@@ -80,8 +82,13 @@ class DBRepository {
         .snapshots();
   }
 
-  // Stream<QuerySnapshot> getNotesFromDate(DateTime date, String uid){
-  //   date.subtract(Duration(hours: date.hour, seconds: date.second, milliseconds: date.mi))
-  //   // return _firestore.collectionGroup('notes').where('timestamp');
-  // }
+  Stream<QuerySnapshot> getNotesFromDate(DateTime date, String uid) {
+    // date.subtract(Duration(hours: date.hour, seconds: date.second, milliseconds: date.mi))
+    DateTime now = DateTime(date.year, date.month, date.day);
+    return _firestore
+        .collectionGroup('notes')
+        .where('timestamp', isGreaterThanOrEqualTo: now)
+        .where('uid', isEqualTo: uid)
+        .snapshots();
+  }
 }

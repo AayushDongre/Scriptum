@@ -11,6 +11,7 @@ import 'package:scriptum/constants/typography.dart';
 import 'package:scriptum/constants/widgets.dart';
 import 'package:scriptum/database/dbRepository.dart';
 import 'package:scriptum/models/user.dart';
+import 'package:scriptum/screens/datesScreen.dart';
 import 'package:scriptum/screens/tagsScreen.dart';
 import 'package:scriptum/screens/upload/upload_screen.dart';
 
@@ -80,6 +81,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             child: folder(timestampToString(dates[index])),
+                            onTap:() => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DatesScreen(
+                                  dbRepository: context.repository<DBRepository>(),
+                                  date: dates[index].toDate(),
+                                  user: user,
+                                )
+                              ),
+                            ),
                           );
                         },
                       );
