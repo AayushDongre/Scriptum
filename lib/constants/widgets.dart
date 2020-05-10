@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
+import 'package:scriptum/screens/tagsScreen.dart';
 
 //TODO: style snackbar
 Widget snackbar(String text, IconData icon) {
@@ -76,10 +77,8 @@ Widget button(
   );
 }
 
-Widget folder(BuildContext context, String title) {
-  return GestureDetector(
-    onTap: () {},
-    child: Container(
+Widget folder(String title) {
+  return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.all(16),
       height: 100,
@@ -89,6 +88,5 @@ Widget folder(BuildContext context, String title) {
           gradient: LinearGradient(
               colors: [Color(0xFF2F353A), Color(0xFF1C1F22).withOpacity(.8481)],
               transform: GradientRotation(6.12))),
-    ),
-  );
+    );
 }

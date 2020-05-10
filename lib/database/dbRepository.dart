@@ -31,7 +31,7 @@ class DBRepository {
   Future<void> addTag(User user, String tag) async {
     DocumentSnapshot snapshot =
         await _firestore.collection('users').document(user.uid).get();
-    List<String> tags = snapshot.data['tags'];
+    List tags = snapshot.data['tags'];
     if (!tags.contains(tag)) {
       tags.add(tag);
     }
@@ -44,7 +44,7 @@ class DBRepository {
   Future<void> addTags(User user, List<String> newTags) async {
     DocumentSnapshot snapshot =
         await _firestore.collection('users').document(user.uid).get();
-    List<String> tags = snapshot.data['tags'] ?? [];
+    List tags = snapshot.data['tags'] ?? [];
     newTags.forEach((element) {
       if (!tags.contains(element)) {
         tags.add(element);

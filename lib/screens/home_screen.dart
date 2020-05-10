@@ -11,6 +11,7 @@ import 'package:scriptum/constants/typography.dart';
 import 'package:scriptum/constants/widgets.dart';
 import 'package:scriptum/database/dbRepository.dart';
 import 'package:scriptum/models/user.dart';
+import 'package:scriptum/screens/tagsScreen.dart';
 import 'package:scriptum/screens/upload/upload_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -61,7 +62,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: tags.length,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
-                      return folder(context, tags[index].toString());
+                      return GestureDetector(
+                        child: folder(tags[index]),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TagScreen(
+                              tag: tags[index],
+                              dbRepository: context.repository<DBRepository>(),
+                              user: user,
+                            ),
+                          ),
+                        ),
+                      );
                     },
                   );
                 }
