@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +8,8 @@ import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
+import 'package:scriptum/constants/widgets.dart';
+import 'package:scriptum/database/dbRepository.dart';
 import 'package:scriptum/models/user.dart';
 import 'package:scriptum/screens/upload/upload_screen.dart';
 
@@ -40,12 +43,35 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         color: backgroundColor,
         child: ListView(
-          children: <Widget>[h1(user.name)],
+          children: <Widget>[
+            h1(user.name),
+            StreamBuilder(
+              stream: context.repository<DBRepository>().getUserDetails(user),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return Container(
+                    color: Colors.white,
+                  );
+                } else {
+                  List tags = snapshot.data.data['tags'];
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2),
+                    itemCount: tags.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return folder(context, tags[index].toString());
+                    },
+                  );
+                }
+              },
+            )
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          print('yess');
           File file = await ImagePicker.pickImage(source: ImageSource.camera);
           Navigator.push(
             context,

@@ -9,7 +9,10 @@ Widget snackbar(String text, IconData icon) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         h2(text, fontSize: 14),
-        Icon(icon, color: Colors.white54,),
+        Icon(
+          icon,
+          color: Colors.white54,
+        ),
       ],
     ),
     backgroundColor: Color(0XFF111111),
@@ -69,6 +72,23 @@ Widget button(
         color: color ?? purple,
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
+    ),
+  );
+}
+
+Widget folder(BuildContext context, String title) {
+  return GestureDetector(
+    onTap: () {},
+    child: Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.all(16),
+      height: 100,
+      width: 100,
+      child: h2(title),
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [Color(0xFF2F353A), Color(0xFF1C1F22).withOpacity(.8481)],
+              transform: GradientRotation(6.12))),
     ),
   );
 }
