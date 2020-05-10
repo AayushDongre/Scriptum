@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scriptum/authentication/authRepository.dart';
-import 'package:scriptum/authentication/signupBloc/signup_bloc.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
 import 'package:scriptum/screens/authentication/signup_form.dart';
@@ -14,12 +11,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final AuthRepository _authRepository = AuthRepository();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +32,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

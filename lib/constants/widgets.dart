@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
-import 'package:scriptum/screens/tagsScreen.dart';
 
 //TODO: style snackbar
 Widget snackbar(String text, IconData icon) {

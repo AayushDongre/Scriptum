@@ -6,7 +6,7 @@ import 'package:scriptum/database/dbRepository.dart';
 import 'package:scriptum/models/user.dart';
 
 class TagScreen extends StatelessWidget {
-  DBRepository _dbRepository;
+  final DBRepository _dbRepository;
   final String tag;
   final User _user;
   TagScreen({

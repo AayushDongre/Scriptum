@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
-import 'package:scriptum/models/user.dart';
 import 'package:scriptum/screens/upload/upload_form.dart';
 
 class UploadScreen extends StatefulWidget {
