@@ -25,14 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   User user;
   TabController _tabController;
-  final List<Tab> _tabs = <Tab>[
-    Tab(
-      text: 'Date',
-    ),
-    Tab(
-      text: 'Tags',
-    )
-  ];
+  final List<Tab> _tabs = <Tab>[Tab(text: 'Tags'), Tab(text: 'Date')];
 
   @override
   void initState() {
@@ -60,52 +53,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             color: backgroundColor,
             child: ListView(
               children: <Widget>[
-                h1(user.name),
-                StreamBuilder(
-                  stream:
-                      context.repository<DBRepository>().getUserDetails(user),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    if (!snapshot.hasData) {
-                      return Container(
-                        color: Colors.white,
-                      );
-                    } else {
-                      List dates = snapshot.data.data['dates'];
-
-                      return GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                        itemCount: dates.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            child: folder(timestampToString(dates[index])),
-                            onTap:() => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DatesScreen(
-                                  dbRepository: context.repository<DBRepository>(),
-                                  date: dates[index].toDate(),
-                                  user: user,
-                                )
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    }
-                  },
-                )
-              ],
-            ),
-          ),
-          // ******************************
-          Container(
-            color: backgroundColor,
-            child: ListView(
-              children: <Widget>[
-                h1(user.name),
+                // h1(user.name),
                 StreamBuilder(
                   stream:
                       context.repository<DBRepository>().getUserDetails(user),
@@ -145,6 +93,51 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ],
             ),
           ),
+          // ************************
+          Container(
+            color: backgroundColor,
+            child: ListView(
+              children: <Widget>[
+                // h1(user.name),
+                StreamBuilder(
+                  stream:
+                      context.repository<DBRepository>().getUserDetails(user),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container(
+                        color: Colors.white,
+                      );
+                    } else {
+                      List dates = snapshot.data.data['dates'];
+
+                      return GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        itemCount: dates.length,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            child: folder(timestampToString(dates[index])),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DatesScreen(
+                                        dbRepository:
+                                            context.repository<DBRepository>(),
+                                        date: dates[index].toDate(),
+                                        user: user,
+                                      )),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
+                )
+              ],
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -170,11 +163,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  String timestampToString(timestamp){
+  String timestampToString(timestamp) {
     DateTime date = timestamp.toDate();
     String dateStr = '${date.day}/${date.month}/${date.year}';
     return dateStr;
   }
 }
-
-

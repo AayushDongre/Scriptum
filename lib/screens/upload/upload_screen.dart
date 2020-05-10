@@ -7,15 +7,20 @@ import 'package:scriptum/screens/upload/upload_form.dart';
 
 class UploadScreen extends StatefulWidget {
   final File file;
-  UploadScreen({Key key, @required this.file})
-      :
-        super(key: key);
+  UploadScreen({Key key, @required this.file}) : super(key: key);
 
   @override
   _UploadScreenState createState() => _UploadScreenState();
 }
 
 class _UploadScreenState extends State<UploadScreen> {
+  List<String> tags = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,12 +50,7 @@ class _UploadScreenState extends State<UploadScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    h2('Tags', fontSize: 32),
-                    h2('Tags', fontSize: 12),
-                    h2('Tags', fontSize: 12),
-                    h2('Tags', fontSize: 12),
-                    h2('Tags', fontSize: 12),
-                    h2('Tags', fontSize: 12),
+                    Text(tags.toString())
                   ],
                 ),
               ),
@@ -58,9 +58,17 @@ class _UploadScreenState extends State<UploadScreen> {
           ),
           UploadForm(
             file: widget.file,
+            callbackState: callbackState
           ),
         ],
       ),
     );
+  }
+  callbackState(String newTag){
+    if(!tags.contains(newTag)){
+      setState(() {
+        tags.add(newTag);
+      });
+    }
   }
 }

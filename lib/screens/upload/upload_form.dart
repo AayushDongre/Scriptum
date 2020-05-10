@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
@@ -12,11 +13,10 @@ import 'package:scriptum/uploadBloc/upload_bloc.dart';
 
 class UploadForm extends StatefulWidget {
   final File file;
+  final Function(String) callbackState;
 
-  UploadForm({
-    Key key,
-    @required this.file,
-  }) : super(key: key);
+  UploadForm({Key key, @required this.file, @required this.callbackState})
+      : super(key: key);
 
   @override
   _UploadFormState createState() => _UploadFormState();
@@ -29,6 +29,7 @@ class _UploadFormState extends State<UploadForm> {
   UploadBloc _uploadBloc;
   String snackBarMessage;
   User user;
+  List<String> imageTags = [];
 
   @override
   void initState() {
@@ -76,14 +77,14 @@ class _UploadFormState extends State<UploadForm> {
                     context,
                     'Upload',
                     onTap: () {
-                      if (_titleController.text.isNotEmpty) {
+                      if (_titleController.text.isNotEmpty && imageTags.isNotEmpty) {
                         _uploadBloc.add(
                           UploadSubmitted(
                             note: Note(
                                 uid: user.uid,
                                 file: widget.file,
                                 title: _titleController.text,
-                                tags: ['maths', 'important'],
+                                tags: imageTags,
                                 timeStamp: DateTime.now(),
                                 comment: _commentController.text),
                           ),
@@ -92,7 +93,40 @@ class _UploadFormState extends State<UploadForm> {
                           ..showSnackBar(snackbar(snackBarMessage, Icons.info));
                       }
                     },
-                  )
+                  ),
+                  StreamBuilder(
+                    stream:
+                        context.repository<DBRepository>().getUserDetails(user),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Container(
+                          color: Colors.white,
+                        );
+                      } else {
+                        List tags = snapshot.data.data['tags'];
+                        return Container(
+                          margin: EdgeInsets.symmetric(vertical: 32),
+                          alignment: Alignment.center,
+                          height: 70,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: tags.length,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                child: smallFolder(tags[index]),
+                                onTap: (){
+                                  widget.callbackState(tags[index]);
+                                  imageTags.add(tags[index]);
+                                },
+                              );
+                            },
+                          ),
+                        );
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
