@@ -52,7 +52,14 @@ class DBRepository {
         print(element);
       }
     });
-    dates.add(date ?? DateTime.now());
+    bool contains = false;
+    DateTime now = DateTime(date.year, date.month, date.day);
+    for (int i = 0; i < dates.length; i++) {
+      if(now.day == dates[i].day && now.month == dates[i].month && now.year == dates[i].year){
+        contains = true;
+      }
+    }
+    if(!contains) dates.add(now);
 
     Map<String, dynamic> updates = {
       'tags': tags,
@@ -60,7 +67,6 @@ class DBRepository {
     };
     await _firestore.collection('users').document(user.uid).updateData(updates);
   }
-
 
   Stream<DocumentSnapshot> getUserDetails(User user) {
     return _firestore.collection('users').document(user.uid).snapshots();
@@ -74,7 +80,8 @@ class DBRepository {
         .snapshots();
   }
 
-  Stream<QuerySnapshot> getNotesFromDate(DateTime date, String uid){
-
-  }
+  // Stream<QuerySnapshot> getNotesFromDate(DateTime date, String uid){
+  //   date.subtract(Duration(hours: date.hour, seconds: date.second, milliseconds: date.mi))
+  //   // return _firestore.collectionGroup('notes').where('timestamp');
+  // }
 }
