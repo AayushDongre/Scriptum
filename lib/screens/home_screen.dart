@@ -21,12 +21,22 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   User user;
+  TabController _tabController;
+  final List<Tab> _tabs = <Tab>[
+    Tab(
+      text: 'Date',
+    ),
+    Tab(
+      text: 'Tags',
+    )
+  ];
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: _tabs.length, vsync: this);
     user = context.repository<AuthRepository>().currentUser;
   }
 
@@ -40,48 +50,91 @@ class _HomeScreenState extends State<HomeScreen> {
               child: h2('Logout'),
               onPressed: () => context.bloc<AuthBloc>().add(LoggedOut()))
         ],
+        bottom: TabBar(tabs: _tabs, controller: _tabController),
       ),
-      body: Container(
-        color: backgroundColor,
-        child: ListView(
-          children: <Widget>[
-            h1(user.name),
-            StreamBuilder(
-              stream: context.repository<DBRepository>().getUserDetails(user),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return Container(
-                    color: Colors.white,
-                  );
-                } else {
-                  List tags = snapshot.data.data['tags'];
-                  return GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
-                    itemCount: tags.length,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        child: folder(tags[index]),
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TagScreen(
-                              tag: tags[index],
-                              dbRepository: context.repository<DBRepository>(),
-                              user: user,
-                            ),
-                          ),
-                        ),
+      body: TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+          Container(
+            color: backgroundColor,
+            child: ListView(
+              children: <Widget>[
+                h1(user.name),
+                StreamBuilder(
+                  stream:
+                      context.repository<DBRepository>().getUserDetails(user),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container(
+                        color: Colors.white,
                       );
-                    },
-                  );
-                }
-              },
-            )
-          ],
-        ),
+                    } else {
+                      List dates = snapshot.data.data['dates'];
+
+                      return GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        itemCount: dates.length,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            child: folder(timestampToString(dates[index])),
+                          );
+                        },
+                      );
+                    }
+                  },
+                )
+              ],
+            ),
+          ),
+          // ******************************
+          Container(
+            color: backgroundColor,
+            child: ListView(
+              children: <Widget>[
+                h1(user.name),
+                StreamBuilder(
+                  stream:
+                      context.repository<DBRepository>().getUserDetails(user),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container(
+                        color: Colors.white,
+                      );
+                    } else {
+                      List tags = snapshot.data.data['tags'];
+                      return GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        itemCount: tags.length,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            child: folder(tags[index]),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TagScreen(
+                                  tag: tags[index],
+                                  dbRepository:
+                                      context.repository<DBRepository>(),
+                                  user: user,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
+                )
+              ],
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -99,4 +152,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  String timestampToString(timestamp){
+    DateTime date = timestamp.toDate();
+    String dateStr = '${date.day}/${date.month}/${date.year}';
+    return dateStr;
+  }
 }
+
+

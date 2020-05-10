@@ -41,21 +41,27 @@ class DBRepository {
     await _firestore.collection('users').document(user.uid).updateData(updates);
   }
 
-  Future<void> addTags(User user, List<String> newTags) async {
+  Future<void> addTags(User user, List<String> newTags, DateTime date) async {
     DocumentSnapshot snapshot =
         await _firestore.collection('users').document(user.uid).get();
     List tags = snapshot.data['tags'] ?? [];
+    List dates = snapshot.data['dates'] ?? [];
+
     newTags.forEach((element) {
       if (!tags.contains(element)) {
         tags.add(element);
         print(element);
       }
     });
+    dates.add(date ?? DateTime.now());
+
     Map<String, dynamic> updates = {
       'tags': tags,
+      'dates': dates,
     };
     await _firestore.collection('users').document(user.uid).updateData(updates);
   }
+
 
   Stream<DocumentSnapshot> getUserDetails(User user) {
     return _firestore.collection('users').document(user.uid).snapshots();
@@ -67,5 +73,9 @@ class DBRepository {
         .where('tags', arrayContains: tag)
         .where('uid', isEqualTo: uid)
         .snapshots();
+  }
+
+  Stream<QuerySnapshot> getNotesFromDate(DateTime date, String uid){
+
   }
 }

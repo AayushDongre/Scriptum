@@ -32,11 +32,8 @@ class TagScreen extends StatelessWidget {
         stream: _dbRepository.getNotesFromTag(tag, _user.uid),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Container(
-              alignment: Alignment.center,
-              child: h2('Nothing to see here!'),
-            );
-          } else{
+            return Container();
+          } else {
             List<DocumentSnapshot> documents = snapshot.data.documents;
             return ListView.builder(
               itemCount: documents.length,
