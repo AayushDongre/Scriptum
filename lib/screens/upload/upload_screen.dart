@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
 import 'package:scriptum/models/user.dart';

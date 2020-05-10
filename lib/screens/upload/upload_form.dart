@@ -2,13 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
-import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/widgets.dart';
-import 'package:scriptum/database/dbRepository.dart';
 import 'package:scriptum/models/note.dart';
 import 'package:scriptum/models/user.dart';
-import 'package:scriptum/storage/storageRepository.dart';
 import 'package:scriptum/uploadBloc/upload_bloc.dart';
 
 class UploadForm extends StatefulWidget {

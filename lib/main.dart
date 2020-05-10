@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
+import 'package:scriptum/database/dbRepository.dart';
 import 'package:scriptum/screens/authentication/login_screen.dart';
 import 'package:scriptum/screens/authentication/signup_screen.dart';
 import 'package:scriptum/screens/home_screen.dart';
 import 'package:scriptum/screens/splash_screen.dart';
+import 'package:scriptum/storage/storageRepository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,12 +28,17 @@ class Scriptum extends StatefulWidget {
 }
 
 class _ScriptumState extends State<Scriptum> {
-  final AuthRepository _authRepository = AuthRepository();
+   AuthRepository _authRepository;
+   StorageRepository _storageRepository;
+   DBRepository _dbRepository;
   AuthBloc _authBloc;
 
   @override
   void initState() {
     super.initState();
+    _authRepository = AuthRepository();
+    _storageRepository = StorageRepository();
+    _dbRepository = DBRepository();
     _authBloc = AuthBloc(authRepository: _authRepository);
     _authBloc.add(AppStarted());
   }
@@ -52,8 +59,18 @@ class _ScriptumState extends State<Scriptum> {
           builder: (BuildContext context, AuthState state) {
             if (state is Authenticated) {
               // _authBloc.dispatch(LoggedOut());
-              return RepositoryProvider(
-                create: (context) => _authRepository,
+              return MultiRepositoryProvider(
+                providers: [
+                  RepositoryProvider<AuthRepository>(
+                    create: (BuildContext context) => _authRepository,
+                  ),
+                  RepositoryProvider<DBRepository>(
+                    create: (BuildContext context) => _dbRepository,
+                  ),
+                  RepositoryProvider<StorageRepository>(
+                    create: (BuildContext context) => _storageRepository,
+                  )
+                ],
                 child: HomeScreen(),
               );
             }
