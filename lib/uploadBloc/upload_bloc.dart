@@ -69,7 +69,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
       yield UploadState.uploadingData();
       await _dbRepository.uploadNoteData(_user, note);
-      await _dbRepository.addTags(_user, note.tags, note.timeStamp);
+      await _dbRepository.addDetails(_user, note.tags, note.timeStamp);
 
       yield UploadState.success();
     } catch (e) {

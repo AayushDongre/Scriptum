@@ -44,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: h2('Logout'),
               onPressed: () => context.bloc<AuthBloc>().add(LoggedOut()))
         ],
+        
         bottom: TabBar(tabs: _tabs, controller: _tabController),
       ),
       body: TabBarView(

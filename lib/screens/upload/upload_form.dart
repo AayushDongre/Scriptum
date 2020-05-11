@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
+import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:scriptum/authentication/authRepository.dart';
+import 'package:scriptum/constants/typography.dart';
 import 'package:scriptum/constants/widgets.dart';
 import 'package:scriptum/database/dbRepository.dart';
 import 'package:scriptum/models/note.dart';
@@ -68,16 +71,39 @@ class _UploadFormState extends State<UploadForm> {
                     controller: _commentController,
                     validator: (value) => null,
                   ),
-                  standardTextInput(
-                    hintText: 'Tags',
-                    controller: _tagsController,
-                    validator: (value) => null,
+                  Container(
+                    child: Stack(
+                      alignment: Alignment.centerRight,
+                      children: <Widget>[
+                        standardTextInput(
+                          hintText: 'Tags',
+                          controller: _tagsController,
+                          validator: (value) => null,
+                        ),
+                        OutlineGradientButton(
+                          backgroundColor: Colors.black,
+                          padding: EdgeInsets.all(8),
+                          child: Icon(Icons.navigate_next),
+                          strokeWidth: 2,
+                          gradient:
+                              LinearGradient(colors: GradientColors.lightBlack),
+                          onTap: () async {
+                            widget.callbackState(_tagsController.text);
+                            context
+                                .repository<DBRepository>()
+                                .addTag(user, _tagsController.text);
+                            _tagsController.clear();
+                          },
+                        )
+                      ],
+                    ),
                   ),
                   button(
                     context,
                     'Upload',
                     onTap: () {
-                      if (_titleController.text.isNotEmpty && imageTags.isNotEmpty) {
+                      if (_titleController.text.isNotEmpty &&
+                          imageTags.isNotEmpty) {
                         _uploadBloc.add(
                           UploadSubmitted(
                             note: Note(
@@ -94,6 +120,7 @@ class _UploadFormState extends State<UploadForm> {
                       }
                     },
                   ),
+                  h1('Your Tags:'),
                   StreamBuilder(
                     stream:
                         context.repository<DBRepository>().getUserDetails(user),
@@ -106,22 +133,39 @@ class _UploadFormState extends State<UploadForm> {
                       } else {
                         List tags = snapshot.data.data['tags'];
                         return Container(
-                          margin: EdgeInsets.symmetric(vertical: 32),
-                          alignment: Alignment.center,
-                          height: 70,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: tags.length,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                child: smallFolder(tags[index]),
-                                onTap: (){
-                                  widget.callbackState(tags[index]);
-                                  imageTags.add(tags[index]);
-                                },
-                              );
-                            },
+                          margin: EdgeInsets.all(16),
+                          width: MediaQuery.of(context).size.width * .9,
+                          child: Wrap(
+                            direction: Axis.horizontal,
+                            alignment: WrapAlignment.center,
+                            children: tags
+                                .map(
+                                  (tag) => GestureDetector(
+                                    child: Container(
+                                      margin: EdgeInsets.all(8),
+                                      child: OutlineGradientButton(
+                                        child: h2(tag, fontSize: 16),
+                                        gradient: LinearGradient(
+                                          stops: [0, 1],
+                                          colors: GradientColors.royalBlue,
+                                        ),
+                                        strokeWidth: 4,
+                                        corners: Corners(
+                                            topLeft: Radius.elliptical(16, 14),
+                                            bottomRight: Radius.circular(6)),
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      widget.callbackState(tag);
+                                      if (!imageTags.contains(tag)) {
+                                        imageTags.add(tag);
+                                      } else {
+                                        imageTags.remove(tag);
+                                      }
+                                    },
+                                  ),
+                                )
+                                .toList(),
                           ),
                         );
                       }

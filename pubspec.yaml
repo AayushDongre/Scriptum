@@ -31,6 +31,8 @@ dependencies:
   meta: ^1.1.6
   google_fonts: ^1.0.0
   cupertino_icons: ^0.1.2
+  flutter_gradient_colors: ^1.0.0
+  outline_gradient_button: ^1.0.0+2
 
 dev_dependencies:
   flutter_test:

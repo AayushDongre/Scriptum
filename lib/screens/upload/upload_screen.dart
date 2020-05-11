@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
+import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
 import 'package:scriptum/screens/upload/upload_form.dart';
@@ -28,6 +30,7 @@ class _UploadScreenState extends State<UploadScreen> {
         title: h1('Upload'),
         centerTitle: true,
       ),
+      
       backgroundColor: backgroundColor,
       body: ListView(
         children: <Widget>[
@@ -46,29 +49,42 @@ class _UploadScreenState extends State<UploadScreen> {
               Container(
                 alignment: Alignment.topCenter,
                 height: MediaQuery.of(context).size.width * 0.4,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Text(tags.toString())
-                  ],
-                ),
+                child: Wrap(
+                    direction: Axis.vertical,
+                    children: tags
+                        .map(
+                          (tag) => Container(
+                            margin: EdgeInsets.only(top:8),
+                            child: OutlineGradientButton(
+                            padding: EdgeInsets.all(8),
+                            child: h2(tag, fontSize: 16),
+                            gradient: LinearGradient(
+                                colors: GradientColors.noontoDusk),
+                            strokeWidth: 2,
+                          ),
+                          ),
+                        )
+                        .toList()),
               ),
             ],
           ),
-          UploadForm(
-            file: widget.file,
-            callbackState: callbackState
-          ),
+          UploadForm(file: widget.file, callbackState: callbackState),
         ],
       ),
     );
   }
-  callbackState(String newTag){
-    if(!tags.contains(newTag)){
+
+  callbackState(String newTag) {
+    if (!tags.contains(newTag)) {
       setState(() {
         tags.add(newTag);
       });
+    } else {
+      setState(() {
+        tags.remove(newTag);
+      });
     }
+    print(newTag);
+    print(tags.contains(newTag));
   }
 }

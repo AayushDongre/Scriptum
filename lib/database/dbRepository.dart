@@ -40,7 +40,7 @@ class DBRepository {
     await _firestore.collection('users').document(user.uid).updateData(updates);
   }
 
-  Future<void> addTags(User user, List<String> newTags, DateTime date) async {
+  Future<void> addDetails(User user, List<String> newTags, DateTime date) async {
     DocumentSnapshot snapshot =
         await _firestore.collection('users').document(user.uid).get();
     List tags = snapshot.data['tags'] ?? [];
