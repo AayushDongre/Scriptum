@@ -44,7 +44,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: h2('Logout'),
               onPressed: () => context.bloc<AuthBloc>().add(LoggedOut()))
         ],
-        
         bottom: TabBar(tabs: _tabs, controller: _tabController),
       ),
       body: TabBarView(
@@ -52,91 +51,78 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         children: <Widget>[
           Container(
             color: backgroundColor,
-            child: ListView(
-              children: <Widget>[
-                // h1(user.name),
-                StreamBuilder(
-                  stream:
-                      context.repository<DBRepository>().getUserDetails(user),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    if (!snapshot.hasData) {
-                      return Container(
-                        color: Colors.white,
-                      );
-                    } else {
-                      List tags = snapshot.data.data['tags'];
-                      return GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                        itemCount: tags.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            child: folder(tags[index]),
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TagScreen(
-                                  tag: tags[index],
-                                  dbRepository:
-                                      context.repository<DBRepository>(),
-                                  user: user,
-                                ),
-                              ),
+            child: StreamBuilder(
+              stream: context.repository<DBRepository>().getUserDetails(user),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return Container(
+                    color: Colors.white,
+                  );
+                } else {
+                  List tags = snapshot.data.data['tags'];
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2),
+                    itemCount: tags.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        child: folder(tags[index]),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TagScreen(
+                              tag: tags[index],
+                              dbRepository: context.repository<DBRepository>(),
+                              user: user,
                             ),
-                          );
-                        },
+                          ),
+                        ),
                       );
-                    }
-                  },
-                )
-              ],
+                    },
+                  );
+                }
+              },
             ),
           ),
           // ************************
           Container(
             color: backgroundColor,
-            child: ListView(
-              children: <Widget>[
-                // h1(user.name),
-                StreamBuilder(
-                  stream:
-                      context.repository<DBRepository>().getUserDetails(user),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    if (!snapshot.hasData) {
-                      return Container(
-                        color: Colors.white,
-                      );
-                    } else {
-                      List dates = snapshot.data.data['dates'];
+            child: StreamBuilder(
+              stream: context.repository<DBRepository>().getUserDetails(user),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return Container(
+                    color: Colors.white,
+                  );
+                } else {
+                  List dates = snapshot.data.data['dates'];
 
-                      return GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                        itemCount: dates.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            child: folder(timestampToString(dates[index])),
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DatesScreen(
-                                        dbRepository:
-                                            context.repository<DBRepository>(),
-                                        date: dates[index].toDate(),
-                                        user: user,
-                                      )),
-                            ),
-                          );
-                        },
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2),
+                    itemCount: dates.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        child: folder(timestampToString(dates[index])),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DatesScreen(
+                                    dbRepository:
+                                        context.repository<DBRepository>(),
+                                    date: dates[index].toDate(),
+                                    user: user,
+                                  )),
+                        ),
                       );
-                    }
-                  },
-                )
-              ],
+                    },
+                  );
+                }
+              },
             ),
           ),
         ],
