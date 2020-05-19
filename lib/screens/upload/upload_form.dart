@@ -203,7 +203,7 @@ class _UploadFormState extends State<UploadForm> {
     }
     if (state.isSuccess) {
       Scaffold.of(context)..hideCurrentSnackBar();
-      Navigator.pop(context);
+      Navigator.popUntil(context, ModalRoute.withName('/'));
     }
   }
 

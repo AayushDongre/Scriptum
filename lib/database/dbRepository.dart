@@ -55,9 +55,9 @@ class DBRepository {
     bool contains = false;
     DateTime now = DateTime(date.year, date.month, date.day);
     for (int i = 0; i < dates.length; i++) {
-      if (now.day == dates[i].day &&
-          now.month == dates[i].month &&
-          now.year == dates[i].year) {
+      if (now.day == dates[i].toDate().day &&
+          now.month == dates[i].toDate().month &&
+          now.year == dates[i].toDate().year) {
         contains = true;
       }
     }

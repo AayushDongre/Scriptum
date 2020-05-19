@@ -14,6 +14,7 @@ import 'package:scriptum/models/user.dart';
 import 'package:scriptum/screens/datesScreen.dart';
 import 'package:scriptum/screens/tagsScreen.dart';
 import 'package:scriptum/screens/upload/upload_screen.dart';
+import 'package:unicorndial/unicorndial.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -37,111 +38,134 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: h1('HOME'),
-        actions: <Widget>[
-          RaisedButton(
-              child: h2('Logout'),
-              onPressed: () => context.bloc<AuthBloc>().add(LoggedOut()))
-        ],
-        bottom: TabBar(tabs: _tabs, controller: _tabController),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: <Widget>[
-          Container(
-            color: backgroundColor,
-            child: StreamBuilder(
-              stream: context.repository<DBRepository>().getUserDetails(user),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return Container(
-                    color: Colors.white,
-                  );
-                } else {
-                  List tags = snapshot.data.data['tags'];
-                  return GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
-                    itemCount: tags.length,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        child: folder(tags[index]),
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TagScreen(
-                              tag: tags[index],
-                              dbRepository: context.repository<DBRepository>(),
-                              user: user,
+        appBar: AppBar(
+          title: h1('HOME'),
+          actions: <Widget>[
+            RaisedButton(
+                child: h2('Logout'),
+                onPressed: () => context.bloc<AuthBloc>().add(LoggedOut()))
+          ],
+          bottom: TabBar(tabs: _tabs, controller: _tabController),
+        ),
+        body: TabBarView(
+          controller: _tabController,
+          children: <Widget>[
+            Container(
+              color: backgroundColor,
+              child: StreamBuilder(
+                stream: context.repository<DBRepository>().getUserDetails(user),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Container();
+                  } else {
+                    List tags = snapshot.data.data['tags'];
+                    return GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2),
+                      itemCount: tags.length,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          child: folder(tags[index]),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TagScreen(
+                                tag: tags[index],
+                                dbRepository:
+                                    context.repository<DBRepository>(),
+                                user: user,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-          ),
-          // ************************
-          Container(
-            color: backgroundColor,
-            child: StreamBuilder(
-              stream: context.repository<DBRepository>().getUserDetails(user),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return Container(
-                    color: Colors.white,
-                  );
-                } else {
-                  List dates = snapshot.data.data['dates'];
-
-                  return GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
-                    itemCount: dates.length,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        child: folder(timestampToString(dates[index])),
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DatesScreen(
-                                    dbRepository:
-                                        context.repository<DBRepository>(),
-                                    date: dates[index].toDate(),
-                                    user: user,
-                                  )),
-                        ),
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          File file = await ImagePicker.pickImage(source: ImageSource.camera);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => UploadScreen(
-                file: file,
+                        );
+                      },
+                    );
+                  }
+                },
               ),
             ),
-          );
-        },
-        child: Icon(Icons.camera_alt),
-      ),
-    );
+            // ************************
+            Container(
+              color: backgroundColor,
+              child: StreamBuilder(
+                stream: context.repository<DBRepository>().getUserDetails(user),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Container();
+                  } else {
+                    List dates = snapshot.data.data['dates'];
+
+                    return GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2),
+                      itemCount: dates.length,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          child: folder(timestampToString(dates[index])),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DatesScreen(
+                                      dbRepository:
+                                          context.repository<DBRepository>(),
+                                      date: dates[index].toDate(),
+                                      user: user,
+                                    )),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: UnicornDialer(
+          parentButton: Icon(Icons.add),
+          childPadding: 20,
+          orientation: UnicornOrientation.VERTICAL,
+          childButtons: [
+            UnicornButton(
+              labelText: 'Camera',
+              currentButton: FloatingActionButton(
+                mini: true,
+                onPressed: () async {
+                  File file =
+                      await ImagePicker.pickImage(source: ImageSource.camera);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UploadScreen(file: file)),
+                  );
+                },
+                heroTag: 'Camera',
+                child: Icon(Icons.camera_alt, color: Colors.white),
+              ),
+            ),
+            UnicornButton(
+              labelText: 'Gallery',
+              currentButton: FloatingActionButton(
+                mini: true,
+                onPressed: () async {
+                  File file =
+                      await ImagePicker.pickImage(source: ImageSource.gallery);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UploadScreen(file: file),
+                    ),
+                  );
+                },
+                child: Icon(Icons.photo_library, color: Colors.white),
+              ),
+            )
+          ],
+        ));
   }
 
   @override

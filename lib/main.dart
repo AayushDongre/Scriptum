@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
+import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/database/dbRepository.dart';
 import 'package:scriptum/screens/authentication/login_screen.dart';
 import 'package:scriptum/screens/authentication/signup_screen.dart';
@@ -62,11 +63,15 @@ class _ScriptumState extends State<Scriptum> {
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
+            initialRoute: '/',
             routes: {
               '/signup': (BuildContext context) => SignUpScreen(),
               '/login': (BuildContext context) => LoginScreen(),
             },
-            theme: ThemeData.dark(),
+            theme: ThemeData.dark().copyWith(
+                indicatorColor: purple,
+                floatingActionButtonTheme:
+                    FloatingActionButtonThemeData(backgroundColor: purple)),
             home: BlocBuilder(
               bloc: _authBloc,
               builder: (BuildContext context, AuthState state) {

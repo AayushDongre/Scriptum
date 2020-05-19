@@ -33,6 +33,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_gradient_colors: ^1.0.0
   outline_gradient_button: ^1.0.0+2
+  unicorndial: "^1.1.5"
 
 dev_dependencies:
   flutter_test:
