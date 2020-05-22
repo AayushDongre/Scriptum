@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/authentication/signupBloc/signup_bloc.dart';
-import 'package:scriptum/constants/widgets.dart';
+import 'package:scriptum/constants/widgets/button.dart';
+import 'package:scriptum/constants/widgets/snackbar.dart';
+import 'package:scriptum/constants/widgets/standardTextInput.dart';
 import 'package:scriptum/database/dbRepository.dart';
 
 class SignUpForm extends StatefulWidget {

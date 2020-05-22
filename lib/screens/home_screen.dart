@@ -8,7 +8,7 @@ import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
-import 'package:scriptum/constants/widgets.dart';
+import 'package:scriptum/constants/widgets/folder.dart';
 import 'package:scriptum/database/dbRepository.dart';
 import 'package:scriptum/models/user.dart';
 import 'package:scriptum/screens/datesScreen.dart';
