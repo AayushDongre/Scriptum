@@ -74,11 +74,12 @@ class DBRepository {
     return _firestore.collection('users').document(user.uid).snapshots();
   }
 
-  Stream<QuerySnapshot> getNotesFromTag(String tag, String uid) {
+  Stream<QuerySnapshot> getNotesFromTag(String tag, String uid, {bool descending = true}) {
     return _firestore
         .collectionGroup('notes')
         .where('tags', arrayContains: tag)
         .where('uid', isEqualTo: uid)
+        .orderBy('timestamp', descending: descending)
         .snapshots();
   }
 

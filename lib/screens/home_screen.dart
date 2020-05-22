@@ -38,14 +38,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: Container(
+        color: Colors.black,
+        width: MediaQuery.of(context).size.width * 0.4,
+        height: MediaQuery.of(context).size.height,
+        child: RaisedButton(
+                color: Colors.black,
+                child: h2('Logout'),
+                onPressed: () => context.bloc<AuthBloc>().add(LoggedOut())),
+      ),
         appBar: AppBar(
           title: h1('HOME'),
-          actions: <Widget>[
-            RaisedButton(
-                child: h2('Logout'),
-                onPressed: () => context.bloc<AuthBloc>().add(LoggedOut()))
-          ],
           bottom: TabBar(tabs: _tabs, controller: _tabController),
+          backgroundColor: appBarBackground,
         ),
         body: TabBarView(
           controller: _tabController,
@@ -126,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ],
         ),
         floatingActionButton: UnicornDialer(
-          parentButton: Icon(Icons.add),
+          parentButton: Icon(Icons.add, color: Colors.white,),
           childPadding: 20,
           orientation: UnicornOrientation.VERTICAL,
           childButtons: [
