@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DatesScreen(
+                                builder: (context) => DateScreen(
                                       dbRepository:
                                           context.repository<DBRepository>(),
                                       date: dates[index].toDate(),
