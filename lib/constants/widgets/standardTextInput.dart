@@ -8,7 +8,7 @@ final InputDecoration standardInputDecoration = InputDecoration(
     ),
     errorStyle: TextStyle(color: Colors.redAccent),
     disabledBorder: InputBorder.none,
-    contentPadding: EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+    contentPadding: EdgeInsets.only(left: 24, bottom: 11, top: 11, right: 15),
     hintStyle: TextStyle(color: Colors.white54),
     filled: true,
     fillColor: Color(0xFF111111));

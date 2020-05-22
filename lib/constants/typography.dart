@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 Text h1(String text, {double fontSize}) {
   return Text(
     text,
-    style:GoogleFonts.alegreya(
+    style:GoogleFonts.poppins(
       color: Color(0XFFFDFDFD),
       letterSpacing: -0.4,
       fontSize: fontSize ?? 28,

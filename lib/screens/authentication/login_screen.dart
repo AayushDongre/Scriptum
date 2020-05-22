@@ -21,12 +21,12 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: backgroundColor,
         body: Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.only(top: 24, left: 16),
+          padding: EdgeInsets.only(top: 24),
           child: ListView(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(left: 40),
-                child: h1('Login', fontSize: 48),
+                child: h1('LOGIN', fontSize: 48),
               ),
               LoginForm(),
             ],

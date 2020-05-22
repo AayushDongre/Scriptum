@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/typography.dart';
@@ -122,7 +123,15 @@ class _UploadFormState extends State<UploadForm> {
                       }
                     },
                   ),
-                  h1('Your Tags:'),
+                  Text(
+                    'Your Tags:',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white60,
+                      letterSpacing: -0.4,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   StreamBuilder(
                     stream:
                         context.repository<DBRepository>().getUserDetails(user),

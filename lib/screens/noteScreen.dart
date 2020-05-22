@@ -43,10 +43,10 @@ class _NoteScreenState extends State<NoteScreen> {
             title: h1(note['title'].toString().toUpperCase()),
             centerTitle: true,
             backgroundColor: appBarBackground,
-            expandedHeight: 250,
+            expandedHeight: 500,
             flexibleSpace: FlexibleSpaceBar(
               background: Image.network(url),
-              collapseMode: CollapseMode.none,
+              collapseMode: CollapseMode.parallax,
             ),
             pinned: true,
           ),
@@ -56,7 +56,7 @@ class _NoteScreenState extends State<NoteScreen> {
               String lead = paragraph.split(' ')[0].toUpperCase();
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-                child: Text(paragraph + '\n\n', style: TextStyle(color: Colors.white70)),
+                child: Text(paragraph + '\n\n', style: TextStyle(color: Colors.white70, fontSize: 18),),
               );
             }, childCount: note['content'].length),
           ),
