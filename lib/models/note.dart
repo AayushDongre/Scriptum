@@ -10,10 +10,10 @@ class Note {
   List<String> tags;
   DateTime timeStamp;
   String comment;
-  String content;
+  List<String> content;
 
   String get id => title + timeStamp.millisecondsSinceEpoch.toString();
-  String get noteContent => content;
+  List<String> get noteContent => content;
   set noteContent(content) => content;
 
   Note({

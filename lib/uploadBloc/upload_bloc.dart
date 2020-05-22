@@ -61,9 +61,13 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           FirebaseVision.instance.textRecognizer();
       final VisionText visionText =
           await textRecognizer.processImage(visionImage);
-      String content = visionText.text;
+        List<String> content = [];
+      // String content = visionText.text;
+      for(int i =0; i< visionText.blocks.length; i++){
+        content.add(visionText.blocks[i].text);
+      }
       note.content = content;
-
+      print(content);
       yield UploadState.uploadingToStorage();
       await _storageRepository.uploadNote(_user, note);
 
