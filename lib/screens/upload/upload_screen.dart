@@ -29,6 +29,7 @@ class _UploadScreenState extends State<UploadScreen> {
       appBar: AppBar(
         title: h1('Upload'),
         centerTitle: true,
+        backgroundColor: appBarBackground,
       ),
       
       backgroundColor: backgroundColor,
