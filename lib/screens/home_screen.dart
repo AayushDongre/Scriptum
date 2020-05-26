@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   if (!snapshot.hasData) {
                     return Container();
                   } else {
-                    List tags = snapshot.data.data['tags'];
+                    List tags = snapshot.data.data['tags'] ?? [];
                     return GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2),
@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   if (!snapshot.hasData) {
                     return Container();
                   } else {
-                    List dates = snapshot.data.data['dates'];
+                    List dates = snapshot.data.data['dates'] ?? [];
 
                     return GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

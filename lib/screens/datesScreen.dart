@@ -67,7 +67,7 @@ class _DateScreenState extends State<DateScreen> {
           if (!snapshot.hasData) {
             return Container();
           } else {
-            List<DocumentSnapshot> documents = snapshot.data.documents;
+            List<DocumentSnapshot> documents = snapshot.data.documents ?? [];
             return ListView.builder(
               itemCount: documents.length,
               shrinkWrap: true,
