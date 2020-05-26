@@ -38,15 +38,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: Container(
-        color: Colors.black,
-        width: MediaQuery.of(context).size.width * 0.4,
-        height: MediaQuery.of(context).size.height,
-        child: RaisedButton(
-                color: Colors.black,
-                child: h2('Logout'),
-                onPressed: () => context.bloc<AuthBloc>().add(LoggedOut())),
-      ),
+        endDrawer: Container(
+          color: Colors.black,
+          width: MediaQuery.of(context).size.width * 0.4,
+          height: MediaQuery.of(context).size.height,
+          child: RaisedButton(
+              color: Colors.black,
+              child: h2('Logout'),
+              onPressed: () => context.bloc<AuthBloc>().add(LoggedOut())),
+        ),
         appBar: AppBar(
           title: h1('HOME'),
           bottom: TabBar(tabs: _tabs, controller: _tabController),
@@ -131,7 +131,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ],
         ),
         floatingActionButton: UnicornDialer(
-          parentButton: Icon(Icons.add, color: Colors.white,),
+          parentButton: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
           childPadding: 20,
           orientation: UnicornOrientation.VERTICAL,
           childButtons: [
@@ -142,11 +145,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 onPressed: () async {
                   File file =
                       await ImagePicker.pickImage(source: ImageSource.camera);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => UploadScreen(file: file)),
-                  );
+                  if (file != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UploadScreen(file: file)),
+                    );
+                  }
                 },
                 heroTag: 'Camera',
                 child: Icon(Icons.camera_alt, color: Colors.white),
@@ -159,12 +164,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 onPressed: () async {
                   File file =
                       await ImagePicker.pickImage(source: ImageSource.gallery);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => UploadScreen(file: file),
-                    ),
-                  );
+                  if (file != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UploadScreen(file: file),
+                      ),
+                    );
+                  }
                 },
                 child: Icon(Icons.photo_library, color: Colors.white),
               ),
