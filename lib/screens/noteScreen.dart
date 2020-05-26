@@ -9,7 +9,7 @@ import 'package:scriptum/storage/storageRepository.dart';
 
 class NoteScreen extends StatefulWidget {
   NoteScreen({Key key, this.note}) : super(key: key);
-  DocumentSnapshot note;
+  final DocumentSnapshot note;
   @override
   _NoteScreenState createState() => _NoteScreenState();
 }
@@ -65,16 +65,3 @@ class _NoteScreenState extends State<NoteScreen> {
     );
   }
 }
-
-//           SliverFixedExtentList(
-//   itemExtent: 50,
-//   delegate: SliverChildBuilderDelegate(
-//     (BuildContext context, int index) {
-//       return Container(
-//         alignment: Alignment.center,
-//         color: Colors.lightBlue[100 * (index % 9)],
-//         child: Text('list item $index'),
-//       );
-//     },
-//   ),
-// ),

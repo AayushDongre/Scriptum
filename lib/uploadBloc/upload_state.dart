@@ -99,39 +99,6 @@ class UploadState extends Equatable {
       isFailure: false,
     );
   }
-  // UploadState copyWith({
-  //   bool issubmitted,
-  //   bool isEtractingText,
-  //   bool isUploadingToStorage,
-  //   bool isUploadingData,
-  //   bool isTitleValid,
-  //   bool isSuccess,
-  //   bool isFailure,
-  // }) {
-  //   return UploadState._(
-  //     issubmitted: issubmitted ?? this.issubmitted,
-  //     isEtractingText: isEtractingText ?? this.isEtractingText,
-  //     isUploadingData: isUploadingData ?? this.isUploadingData,
-  //     isUploadingToStorage: isUploadingToStorage ?? this.isUploadingToStorage,
-  //     isTitleValid: isTitleValid ?? this.isTitleValid,
-  //     isSuccess: isSuccess ?? this.isSuccess,
-  //     isFailure: isFailure ?? this.isFailure,
-  //   );
-  // }
-
-  // UploadState update({
-  //   bool isTitleValid,
-  // }) {
-  //   return copyWith(
-  //     issubmitted: false,
-  //     isEtractingText: false,
-  //     isUploadingData: false,
-  //     isUploadingToStorage: false,
-  //     isTitleValid: isTitleValid,
-  //     isSuccess: false,
-  //     isFailure: false,
-  //   );
-  // }
 
   @override
   List<Object> get props => [];

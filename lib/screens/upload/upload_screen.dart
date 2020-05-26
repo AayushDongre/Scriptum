@@ -69,7 +69,7 @@ class _UploadScreenState extends State<UploadScreen> {
               ),
             ],
           ),
-          UploadForm(file: widget.file, callbackState: callbackState, popPage:popPage),
+          UploadForm(file: widget.file, callbackState: callbackState),
         ],
       ),
     );
