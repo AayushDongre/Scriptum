@@ -69,12 +69,11 @@ class _UploadScreenState extends State<UploadScreen> {
               ),
             ],
           ),
-          UploadForm(file: widget.file, callbackState: callbackState),
+          UploadForm(file: widget.file, callbackState: callbackState, popPage:popPage),
         ],
       ),
     );
   }
-
   callbackState(String newTag) {
     if (!tags.contains(newTag)) {
       setState(() {

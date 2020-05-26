@@ -38,146 +38,146 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        endDrawer: Container(
-          color: Colors.black,
-          width: MediaQuery.of(context).size.width * 0.4,
-          height: MediaQuery.of(context).size.height,
-          child: RaisedButton(
-              color: Colors.black,
-              child: h2('Logout'),
-              onPressed: () => context.bloc<AuthBloc>().add(LoggedOut())),
-        ),
-        appBar: AppBar(
-          title: h1('HOME'),
-          bottom: TabBar(tabs: _tabs, controller: _tabController),
-          backgroundColor: appBarBackground,
-        ),
-        body: TabBarView(
-          controller: _tabController,
-          children: <Widget>[
-            Container(
-              color: backgroundColor,
-              child: StreamBuilder(
-                stream: context.repository<DBRepository>().getUserDetails(user),
-                builder: (BuildContext context,
-                    AsyncSnapshot<DocumentSnapshot> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Container();
-                  } else {
-                    List tags = snapshot.data.data['tags'] ?? [];
-                    return GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
-                      itemCount: tags.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          child: folder(tags[index]),
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TagScreen(
-                                tag: tags[index],
-                                dbRepository:
-                                    context.repository<DBRepository>(),
-                                user: user,
-                              ),
+      endDrawer: Container(
+        color: Colors.black,
+        width: MediaQuery.of(context).size.width * 0.4,
+        height: MediaQuery.of(context).size.height,
+        child: RaisedButton(
+            color: Colors.black,
+            child: h2('Logout'),
+            onPressed: () => context.bloc<AuthBloc>().add(LoggedOut())),
+      ),
+      appBar: AppBar(
+        title: h1('HOME'),
+        bottom: TabBar(tabs: _tabs, controller: _tabController),
+        backgroundColor: appBarBackground,
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+          Container(
+            color: backgroundColor,
+            child: StreamBuilder(
+              stream: context.repository<DBRepository>().getUserDetails(user),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return Container();
+                } else {
+                  List tags = snapshot.data.data['tags'] ?? [];
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2),
+                    itemCount: tags.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        child: folder(tags[index]),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TagScreen(
+                              tag: tags[index],
+                              dbRepository: context.repository<DBRepository>(),
+                              user: user,
                             ),
                           ),
-                        );
-                      },
-                    );
-                  }
-                },
-              ),
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
             ),
-            // ************************
-            Container(
-              color: backgroundColor,
-              child: StreamBuilder(
-                stream: context.repository<DBRepository>().getUserDetails(user),
-                builder: (BuildContext context,
-                    AsyncSnapshot<DocumentSnapshot> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Container();
-                  } else {
-                    List dates = snapshot.data.data['dates'] ?? [];
-
-                    return GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
-                      itemCount: dates.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          child: folder(timestampToString(dates[index])),
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DateScreen(
-                                      dbRepository:
-                                          context.repository<DBRepository>(),
-                                      date: dates[index].toDate(),
-                                      user: user,
-                                    )),
-                          ),
-                        );
-                      },
-                    );
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-        floatingActionButton: UnicornDialer(
-          parentButton: Icon(
-            Icons.add,
-            color: Colors.white,
           ),
-          childPadding: 20,
-          orientation: UnicornOrientation.VERTICAL,
-          childButtons: [
-            UnicornButton(
-              labelText: 'Camera',
-              currentButton: FloatingActionButton(
-                mini: true,
-                onPressed: () async {
-                  File file =
-                      await ImagePicker.pickImage(source: ImageSource.camera);
-                  if (file != null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => UploadScreen(file: file)),
-                    );
-                  }
-                },
-                heroTag: 'Camera',
-                child: Icon(Icons.camera_alt, color: Colors.white),
-              ),
+          // ************************
+          Container(
+            color: backgroundColor,
+            child: StreamBuilder(
+              stream: context.repository<DBRepository>().getUserDetails(user),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return Container();
+                } else {
+                  List dates = snapshot.data.data['dates'] ?? [];
+
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2),
+                    itemCount: dates.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        child: folder(timestampToString(dates[index])),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DateScreen(
+                                    dbRepository:
+                                        context.repository<DBRepository>(),
+                                    date: dates[index].toDate(),
+                                    user: user,
+                                  )),
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
             ),
-            UnicornButton(
-              labelText: 'Gallery',
-              currentButton: FloatingActionButton(
-                mini: true,
-                onPressed: () async {
-                  File file =
-                      await ImagePicker.pickImage(source: ImageSource.gallery);
-                  if (file != null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UploadScreen(file: file),
-                      ),
-                    );
-                  }
-                },
-                child: Icon(Icons.photo_library, color: Colors.white),
-              ),
-            )
-          ],
-        ));
+          ),
+        ],
+      ),
+      floatingActionButton: UnicornDialer(
+        parentButton: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        childPadding: 20,
+        orientation: UnicornOrientation.VERTICAL,
+        childButtons: [
+          UnicornButton(
+            labelText: 'Camera',
+            currentButton: FloatingActionButton(
+              mini: true,
+              onPressed: () async {
+                File file =
+                    await ImagePicker.pickImage(source: ImageSource.camera);
+                if (file != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UploadScreen(file: file)),
+                  );
+                }
+              },
+              heroTag: 'Camera',
+              child: Icon(Icons.camera_alt, color: Colors.white),
+            ),
+          ),
+          UnicornButton(
+            labelText: 'Gallery',
+            currentButton: FloatingActionButton(
+              mini: true,
+              onPressed: () async {
+                File file =
+                    await ImagePicker.pickImage(source: ImageSource.gallery);
+                if (file != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UploadScreen(file: file),
+                    ),
+                  );
+                }
+              },
+              child: Icon(Icons.photo_library, color: Colors.white),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   @override

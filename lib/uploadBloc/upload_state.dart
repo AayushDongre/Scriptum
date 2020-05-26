@@ -146,18 +146,27 @@ class UploadState extends Equatable {
       isSuccess: $isSuccess, 
       isFailure: $isFailure)''';
   }
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+  
+    return o is UploadState &&
+      o.issubmitted == issubmitted &&
+      o.isEtractingText == isEtractingText &&
+      o.isUploadingToStorage == isUploadingToStorage &&
+      o.isUploadingData == isUploadingData &&
+      o.isSuccess == isSuccess &&
+      o.isFailure == isFailure;
+  }
+
+  @override
+  int get hashCode {
+    return issubmitted.hashCode ^
+      isEtractingText.hashCode ^
+      isUploadingToStorage.hashCode ^
+      isUploadingData.hashCode ^
+      isSuccess.hashCode ^
+      isFailure.hashCode;
+  }
 }
-
-//title
-//comment
-//tags
-
-//add new tag
-
-// submitted
-// uploading to storage
-// uploaded to storage
-// extracting text
-// extracted text
-// uploading data to db
-// uploaded data to db

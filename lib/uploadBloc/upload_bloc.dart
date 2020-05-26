@@ -67,7 +67,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
         content.add(visionText.blocks[i].text);
       }
       note.content = content;
-      print(content);
       yield UploadState.uploadingToStorage();
       await _storageRepository.uploadNote(_user, note);
 
