@@ -12,8 +12,19 @@ class SplashScreen extends StatelessWidget {
           color: backgroundColor,
         ),
         child: Center(
-          child: h1('SCRIPTUM')
-        ),
+            child: Column(
+          children: <Widget>[
+            h1('SCRIPTUM'),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 50.0),
+              child: Image.asset(
+                'assets/transparentLogo.png',
+                height: 125.0,
+                width: 122.0,
+              ),
+            ),
+          ],
+        )),
       ),
     );
   }
