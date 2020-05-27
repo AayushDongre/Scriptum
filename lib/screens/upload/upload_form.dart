@@ -7,10 +7,10 @@ import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:scriptum/authentication/authRepository.dart';
-import 'package:scriptum/constants/typography.dart';
 import 'package:scriptum/constants/widgets/button.dart';
 import 'package:scriptum/constants/widgets/snackbar.dart';
 import 'package:scriptum/constants/widgets/standardTextInput.dart';
+import 'package:scriptum/constants/widgets/tags.dart';
 import 'package:scriptum/database/dbRepository.dart';
 import 'package:scriptum/models/note.dart';
 import 'package:scriptum/models/user.dart';
@@ -19,7 +19,7 @@ import 'package:scriptum/uploadBloc/upload_bloc.dart';
 
 class UploadForm extends StatefulWidget {
   final File file;
-  final Function(String) callbackState;
+  final Function(String, BuildContext) callbackState;
   final Function() popPage;
 
   UploadForm(
@@ -96,7 +96,7 @@ class _UploadFormState extends State<UploadForm> {
                               gradient: LinearGradient(
                                   colors: GradientColors.lightBlack),
                               onTap: () async {
-                                widget.callbackState(_tagsController.text);
+                                widget.callbackState(_tagsController.text, context);
                                 context
                                     .repository<DBRepository>()
                                     .addTag(user, _tagsController.text);
@@ -156,24 +156,9 @@ class _UploadFormState extends State<UploadForm> {
                                 children: tags
                                     .map(
                                       (tag) => GestureDetector(
-                                        child: Container(
-                                          margin: EdgeInsets.all(8),
-                                          child: OutlineGradientButton(
-                                            child: h2(tag, fontSize: 16),
-                                            gradient: LinearGradient(
-                                              stops: [0, 1],
-                                              colors: GradientColors.royalBlue,
-                                            ),
-                                            strokeWidth: 4,
-                                            corners: Corners(
-                                                topLeft:
-                                                    Radius.elliptical(16, 14),
-                                                bottomRight:
-                                                    Radius.circular(6)),
-                                          ),
-                                        ),
+                                        child: noteTag(tag:tag),
                                         onTap: () {
-                                          widget.callbackState(tag);
+                                          widget.callbackState(tag, context);
                                           if (!imageTags.contains(tag)) {
                                             imageTags.add(tag);
                                           } else {
@@ -196,8 +181,6 @@ class _UploadFormState extends State<UploadForm> {
   }
 
   void _blocListner(BuildContext context, UploadState state) {
-    print('listner called');
-    print(state);
     if (state.isEtractingText) {
       Scaffold.of(context)..showSnackBar(snackbar(snackBarMessage, Icons.info));
       setState(() {
@@ -205,7 +188,6 @@ class _UploadFormState extends State<UploadForm> {
       });
     }
     if (state.isUploadingData) {
-      print('uploading');
       setState(() {
         snackBarMessage = 'Working Magic';
       });

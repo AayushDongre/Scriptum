@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:scriptum/authentication/authBloc/auth_bloc.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
+import 'package:scriptum/constants/widgets/drawer.dart';
 import 'package:scriptum/constants/widgets/folder.dart';
 import 'package:scriptum/database/dbRepository.dart';
 import 'package:scriptum/models/user.dart';
@@ -38,15 +38,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: Container(
-        color: Colors.black,
-        width: MediaQuery.of(context).size.width * 0.4,
-        height: MediaQuery.of(context).size.height,
-        child: RaisedButton(
-            color: Colors.black,
-            child: h2('Logout'),
-            onPressed: () => context.bloc<AuthBloc>().add(LoggedOut())),
-      ),
+      drawer:drawer(context),
       appBar: AppBar(
         title: h1('HOME'),
         bottom: TabBar(tabs: _tabs, controller: _tabController),

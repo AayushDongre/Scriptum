@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
-import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
+import 'package:scriptum/constants/widgets/snackbar.dart';
+import 'package:scriptum/constants/widgets/tags.dart';
 import 'package:scriptum/screens/upload/upload_form.dart';
 
 class UploadScreen extends StatefulWidget {
@@ -31,7 +31,6 @@ class _UploadScreenState extends State<UploadScreen> {
         centerTitle: true,
         backgroundColor: appBarBackground,
       ),
-      
       backgroundColor: backgroundColor,
       body: ListView(
         children: <Widget>[
@@ -54,16 +53,7 @@ class _UploadScreenState extends State<UploadScreen> {
                     direction: Axis.vertical,
                     children: tags
                         .map(
-                          (tag) => Container(
-                            margin: EdgeInsets.only(top:8),
-                            child: OutlineGradientButton(
-                            padding: EdgeInsets.all(8),
-                            child: h2(tag, fontSize: 16),
-                            gradient: LinearGradient(
-                                colors: GradientColors.noontoDusk),
-                            strokeWidth: 2,
-                          ),
-                          ),
+                          (tag) => noteTag(tag: tag),
                         )
                         .toList()),
               ),
@@ -74,11 +64,18 @@ class _UploadScreenState extends State<UploadScreen> {
       ),
     );
   }
-  callbackState(String newTag) {
+
+  callbackState(String newTag, BuildContext context) {
     if (!tags.contains(newTag)) {
-      setState(() {
-        tags.add(newTag);
-      });
+      if (tags.length < 6) {
+        setState(() {
+          tags.add(newTag);
+        });
+      } else {
+        Scaffold.of(context)..removeCurrentSnackBar();
+        Scaffold.of(context)
+          ..showSnackBar(snackbar('A Note can have atmost 6 tags', Icons.info));
+      }
     } else {
       setState(() {
         tags.remove(newTag);
