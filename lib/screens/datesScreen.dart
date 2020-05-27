@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
 import 'package:scriptum/constants/widgets/listCard.dart';
@@ -28,7 +29,6 @@ class _DateScreenState extends State<DateScreen> {
   DBRepository _dbRepository;
   DateTime date;
   User _user;
-  bool descending;
 
   @override
   void initState() {
@@ -36,29 +36,15 @@ class _DateScreenState extends State<DateScreen> {
     _dbRepository = widget.dbRepository;
     date = widget.date;
     _user = widget.user;
-    descending = true;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: h1('${date.day}/${date.month}/${date.year}'),
+        title: h1(DateFormat.yMMMd().format(date)),
         centerTitle: true,
         backgroundColor: appBarBackground,
-        actions: <Widget>[
-          GestureDetector(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.sort, size: 24,),
-            ),
-            onTap: () {
-              setState(() {
-                descending = !descending;
-              });
-            },
-          ),
-        ],
       ),
       backgroundColor: backgroundColor,
       body: StreamBuilder(

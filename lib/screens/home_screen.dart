@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:scriptum/authentication/authRepository.dart';
 import 'package:scriptum/constants/colors.dart';
 import 'package:scriptum/constants/typography.dart';
@@ -15,7 +16,6 @@ import 'package:scriptum/screens/datesScreen.dart';
 import 'package:scriptum/screens/tagsScreen.dart';
 import 'package:scriptum/screens/upload/upload_screen.dart';
 import 'package:unicorndial/unicorndial.dart';
-
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
 
@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer:drawer(context),
+      drawer: drawer(context),
       appBar: AppBar(
         title: h1('HOME'),
         bottom: TabBar(tabs: _tabs, controller: _tabController),
@@ -93,7 +93,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   return Container();
                 } else {
                   List dates = snapshot.data.data['dates'] ?? [];
-
+                  dates = List.from(dates.reversed);
+                  
                   return GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2),
@@ -101,16 +102,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
-                        child: folder(timestampToString(dates[index])),
+                        // child: folder(timestampToString(dates[index])),
+                        child: folder(DateFormat.yMMMd().format(dates[index].toDate())),
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DateScreen(
-                                    dbRepository:
-                                        context.repository<DBRepository>(),
-                                    date: dates[index].toDate(),
-                                    user: user,
-                                  )),
+                            builder: (context) => DateScreen(
+                              dbRepository: context.repository<DBRepository>(),
+                              date: dates[index].toDate(),
+                              user: user,
+                            ),
+                          ),
                         ),
                       );
                     },

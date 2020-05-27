@@ -40,7 +40,8 @@ class DBRepository {
     await _firestore.collection('users').document(user.uid).updateData(updates);
   }
 
-  Future<void> addDetails(User user, List<String> newTags, DateTime date) async {
+  Future<void> addDetails(
+      User user, List<String> newTags, DateTime date) async {
     DocumentSnapshot snapshot =
         await _firestore.collection('users').document(user.uid).get();
     List tags = snapshot.data['tags'] ?? [];
@@ -74,7 +75,8 @@ class DBRepository {
     return _firestore.collection('users').document(user.uid).snapshots();
   }
 
-  Stream<QuerySnapshot> getNotesFromTag(String tag, String uid, {bool descending = true}) {
+  Stream<QuerySnapshot> getNotesFromTag(String tag, String uid,
+      {bool descending = true}) {
     return _firestore
         .collectionGroup('notes')
         .where('tags', arrayContains: tag)
@@ -83,7 +85,8 @@ class DBRepository {
         .snapshots();
   }
 
-  Stream<QuerySnapshot> getNotesFromDate(DateTime date, String uid) {
+  Stream<QuerySnapshot> getNotesFromDate(DateTime date, String uid,
+      {bool descending = true}) {
     // date.subtract(Duration(hours: date.hour, seconds: date.second, milliseconds: date.mi))
     DateTime now = DateTime(date.year, date.month, date.day);
     return _firestore
