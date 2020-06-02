@@ -30,8 +30,8 @@ class DBRepository {
   Future<void> addTag(User user, String tag) async {
     DocumentSnapshot snapshot =
         await _firestore.collection('users').document(user.uid).get();
-    List tags = snapshot.data['tags'];
-    if (!tags.contains(tag)) {
+    List tags = snapshot.data['tags'] ?? [];
+    if (!tags.contains(tag) && tag.isNotEmpty) {
       tags.add(tag);
     }
     Map<String, dynamic> updates = {

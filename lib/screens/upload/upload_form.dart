@@ -7,6 +7,7 @@ import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:scriptum/authentication/authRepository.dart';
+import 'package:scriptum/constants/typography.dart';
 import 'package:scriptum/constants/widgets/button.dart';
 import 'package:scriptum/constants/widgets/snackbar.dart';
 import 'package:scriptum/constants/widgets/standardTextInput.dart';
@@ -96,10 +97,12 @@ class _UploadFormState extends State<UploadForm> {
                               gradient: LinearGradient(
                                   colors: GradientColors.lightBlack),
                               onTap: () async {
-                                widget.callbackState(_tagsController.text, context);
+                                widget.callbackState(
+                                    _tagsController.text, context);
                                 context
                                     .repository<DBRepository>()
                                     .addTag(user, _tagsController.text);
+                                imageTags.add(_tagsController.text);
                                 _tagsController.clear();
                               },
                             )
@@ -110,6 +113,7 @@ class _UploadFormState extends State<UploadForm> {
                         context,
                         'Upload',
                         onTap: () {
+                          print(imageTags);
                           if (_titleController.text.isNotEmpty &&
                               imageTags.isNotEmpty) {
                             _uploadBloc.add(
@@ -153,21 +157,24 @@ class _UploadFormState extends State<UploadForm> {
                               child: Wrap(
                                 direction: Axis.horizontal,
                                 alignment: WrapAlignment.center,
-                                children: tags
-                                    .map(
-                                      (tag) => GestureDetector(
-                                        child: noteTag(tag:tag),
-                                        onTap: () {
-                                          widget.callbackState(tag, context);
-                                          if (!imageTags.contains(tag)) {
-                                            imageTags.add(tag);
-                                          } else {
-                                            imageTags.remove(tag);
-                                          }
-                                        },
-                                      ),
-                                    )
-                                    .toList(),
+                                children: tags == null
+                                    ? [Container()]
+                                    : tags
+                                        .map(
+                                          (tag) => GestureDetector(
+                                            child: noteTag(tag: tag),
+                                            onTap: () {
+                                              widget.callbackState(
+                                                  tag, context);
+                                              if (!imageTags.contains(tag)) {
+                                                imageTags.add(tag);
+                                              } else {
+                                                imageTags.remove(tag);
+                                              }
+                                            },
+                                          ),
+                                        )
+                                        .toList(),
                               ),
                             );
                           }
@@ -214,7 +221,7 @@ class _UploadFormState extends State<UploadForm> {
   void dispose() {
     _tagsController.dispose();
     _titleController.dispose();
-    _tagsController.dispose();
+    _commentController.dispose();
     _uploadBloc.close();
     super.dispose();
   }
